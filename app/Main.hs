@@ -1,8 +1,10 @@
 module Main where
 
 import Control.Monad -- for the loop-while in the main quiz
-import Lib
 import System.Random
+
+import Lib
+import Notes
 
 -- For the following version see https://stackoverflow.com/a/35639761/3749908.
 
