@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ecdc95d231c951e7f1093bf14150d8a7f40fbf5c03e7105f2ad805d4dad38953
+-- hash: 202b72892e38e651b9d564be8a2a33645ca9ac4dd22476d26bea32bd38208c3a
 
 name:           h-notespace
 version:        0.1.0.0
@@ -27,8 +27,9 @@ source-repository head
 
 library
   exposed-modules:
+      Chord
       Lib
-      Notes
+      Note
       Utils
   other-modules:
       Paths_h_notespace

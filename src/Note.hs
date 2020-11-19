@@ -2,19 +2,15 @@
 {- 1 -- AN ENUMERATION TYPE FOR NOTES -}
 {--------------------------------------}
 
-{-
-
-Apart from the auxiliary preexisting datatypes, like Int and [a], the first base datatypes that come to mind regarding this project are an enumeration type for all twelve notes, and the positive reals (or maybe, the positive integers will do in practice, don't know) representing frequencies. Let's concentrate first on the notes. Having notes, we can proceed to define intervals, triads, scales, as values of appropriate higher datatypes.
-
--}
-
-
-module Notes where
+module Note where
 
 import Data.List -- for sorting lists, for nub
 
 import Utils
 
+{-
+Apart from the auxiliary preexisting datatypes, like Int and [a], the first base datatypes that come to mind regarding this project are an enumeration type for all twelve notes, and the positive reals (or maybe, the positive integers will do in practice, don't know) representing frequencies. Let's concentrate first on the notes. Having notes, we can proceed to define intervals, triads, scales, as values of appropriate higher datatypes.
+-}
 
 data Note = A | As | B | C | Cs | D | Ds | E | F | Fs | G | Gs
     deriving (Eq, Enum, Ord, Show, Read, Bounded)

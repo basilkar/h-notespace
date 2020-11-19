@@ -4,7 +4,8 @@ import Control.Monad -- for the loop-while in the main quiz
 import System.Random
 
 import Lib
-import Notes
+import Note
+import Chord
 
 -- For the following version see https://stackoverflow.com/a/35639761/3749908.
 
