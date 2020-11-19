@@ -13,12 +13,7 @@ Sample features:
 
 ## Compilation
 
-Run  
-`~/h-notespace$ ghc haskell-prototyping.hs`  
-and then open the program by entering  
-`~/h-notespace$ ./haskell-prototyping`
-
-Alternatively, working in `stack`, you should just  
+Working in `stack`, you should just  
 `~/h-notespace$ stack build`  
 and then  
 `~/h-notespace$ stack exec h-notespace-exe`
