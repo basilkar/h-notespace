@@ -1,0 +1,51 @@
+name:                h-notespace
+version:             0.1.0.0
+github:              "githubuser/h-notespace"
+license:             BSD3
+author:              "sw.h.basil"
+maintainer:          "sw.h.basil@gmail.com"
+copyright:           "2020 sw.h.basil"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/githubuser/h-notespace#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- array >= 0.5.4.0
+- combinat
+- random
+
+library:
+  source-dirs: src
+
+executables:
+  h-notespace-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - h-notespace
+
+tests:
+  h-notespace-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - h-notespace
