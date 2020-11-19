@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5cad6d45da9086e9f1236df67b027a6715ea7dfe91712ec74f178ffd1209cf17
+-- hash: 5485bfc96bdcba5ec928662376abadbc6915513c89700e513de38267a510b7d5
 
 name:           h-notespace
 version:        0.1.0.0
@@ -28,7 +28,7 @@ source-repository head
 library
   exposed-modules:
       Chord
-      Lib
+      Guitar
       Note
       Rhythm
       Tymoczko

@@ -1,14 +1,8 @@
-module Lib where
-
-import Data.List -- for sorting lists, for nub
-import System.Random -- for the guitar fretboard quizzes
-
-import Note
-import Utils
-
 {------------------------------}
 {- 5 -- CONCERNING THE GUITAR -}
 {------------------------------}
+
+module Guitar where
 
 {-
 Watching this guy here, https://www.youtube.com/watch?v=b9pYEjZ4l48, it seemed reasonable to start implementing some of the quirks that are particular to the guitar.
@@ -16,6 +10,8 @@ Watching this guy here, https://www.youtube.com/watch?v=b9pYEjZ4l48, it seemed r
 
 -- Start by introducing two basic datatypes, one for the strings and one for the frets.
 
+import System.Random
+import Note
 data Guitarstring = StringOne | StringTwo | StringThree | StringFour | StringFive | StringSix
   deriving (Eq, Enum, Ord, Show, Read, Bounded)
 
