@@ -1,7 +1,6 @@
 module Lib where
 
 import Data.List -- for sorting lists, for nub
-import Data.Array -- for the memoization in the definition of Levenshtein metric
 import Math.Combinat -- for rhythmic exercises
 import System.Random -- for the guitar fretboard quizzes
 
@@ -28,7 +27,7 @@ toNote m = toEnum $ m `mod` 12
 -- An auxiliary function that gives the note m halfsteps above the note r (the "root").
 
 halfsteps :: Note -> Int -> Note
-halfsteps r m = toEnum $ (((fromEnum r) + m) `mod` 12)
+halfsteps r m = toEnum $ (fromEnum r + m) `mod` 12
 
 -- Auxiliary functions that gives the halfsteps distance between two notes; an absolute, a directed, and a change version.
 
@@ -296,7 +295,7 @@ OUTPUT the (c:cs) sorted by the given metric
 -}
 
 sortByMetric :: ([Note] -> [Note] -> Int) -> [[Note]] -> [Note] -> [[Note]]
-sortByMetric dist cs c = c : (sortOn (\ d -> dist c d) cs)
+sortByMetric dist cs c = c : sortOn (dist c) cs
 
 scaleSuggester :: [Note] -> Note -> [[Note]]
 scaleSuggester ns r = sortByMetric levenshtein allscales ns
@@ -1293,7 +1292,7 @@ Watching this guy here, https://www.youtube.com/watch?v=b9pYEjZ4l48, it seemed r
 data Guitarstring = StringOne | StringTwo | StringThree | StringFour | StringFive | StringSix
   deriving (Eq, Enum, Ord, Show, Read, Bounded)
 
-data Fret = FretZero | FretOne | FretTwo | FretThree | FretFour | FretFive | FretSix | FretSeven | FretEight | FretNine | FretTen | FretEleven | FretTwelve
+data Fret = FretZero | FretOne | FretTwo | FretThree | FretFour | FretFive | FretSix | FretSeven | FretEight | FretNine | FretTen | FretEleven | FretTwelve | FretThirteen | FretFourteen | FretFifteen | FretSixteen | FretSeventeen | FretEighteen | FretNineteen| FretTwenty| FretTwentyone| FretTwentytwo
   deriving (Eq, Enum, Ord, Show, Read, Bounded)
 
 -- Then a couple of the common tunings.
@@ -1365,17 +1364,17 @@ We can now implement the quizzes that the youtube guy from above suggested. For 
 instance Random Guitarstring where
   randomR (string,string') generator = case randomR (fromEnum string, fromEnum string') generator of
     (stringNumber, generator') -> (toEnum stringNumber, generator')
-  random generator = randomR (minBound,maxBound) generator
+  random = randomR (minBound,maxBound)
 
 instance Random Fret where
   randomR (fret,fret') generator = case randomR (fromEnum fret, fromEnum fret') generator of
     (fretNumber, generator') -> (toEnum fretNumber, generator')
-  random generator = randomR (minBound,maxBound) generator
+  random = randomR (minBound,maxBound)
 
 instance Random Note where
   randomR (note,note') generator = case randomR (fromEnum note, fromEnum note') generator of
     (noteNumber, generator') -> (toEnum noteNumber, generator')
-  random generator = randomR (minBound,maxBound) generator
+  random = randomR (minBound,maxBound)
 
 -- Now we can define the quizzes as follows.
 
@@ -1387,8 +1386,9 @@ fretboardQuizOneStandard = do
   let string = head (randoms g2 :: [Guitarstring])
   let answer = fretboard tuningStandard string fret
   putStrLn ("What is the note on fret " ++ show (fromEnum fret) ++ " of string " ++ show ((fromEnum string) + 1) ++ " in standard tuning?")
+  putStrLn " nomenclature: A, As, B, C, Cs, D, ..."
   guess <- getLine
-  if guess == show answer then putStr "Correct!" else putStr ("Wrong! The note is actually " ++ (show answer) ++ ".")
+  if guess == show answer then putStr " Correct!" else putStr (" Wrong! The note is actually " ++ (show answer) ++ ".")
 
 fretboardQuizTwoStandard :: IO ()
 fretboardQuizTwoStandard = do
@@ -1398,4 +1398,4 @@ fretboardQuizTwoStandard = do
   let string = head (randoms g2 :: [Guitarstring])
   putStrLn ("Where is the note " ++ (show note) ++ " on string " ++ show ((fromEnum string) + 1) ++ " in standard tuning?")
   guess <- readLn --getLine
-  if fretboard tuningStandard string (toEnum guess) == note then putStr "Correct!" else putStr "Wrong." -- Needs some more work to also provide the user with the correct answer here.
+  if fretboard tuningStandard string (toEnum guess) == note then putStr " Correct!" else putStr " Wrong." -- Needs some more work to also provide the user with the correct answer here.
