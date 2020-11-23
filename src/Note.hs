@@ -117,11 +117,11 @@ sig7ChordMM = sigTriadM ++ [11]
 sig7ChordMm :: [Int] -- seventh chord
 sig7ChordMm = sigTriadM ++ [10]
 
-sig7Chordmm :: [Int] -- minor major seventh chord
-sig7Chordmm = sigTriadm ++ [11]
+sig7ChordmM :: [Int] -- minor major seventh chord
+sig7ChordmM = sigTriadm ++ [11]
 
-sig7ChordmM :: [Int] -- minor seventh chord
-sig7ChordmM = sigTriadm ++ [10]
+sig7Chordmm :: [Int] -- minor seventh chord
+sig7Chordmm = sigTriadm ++ [10]
 
 sig7Chorddm :: [Int] -- half-diminished chord
 sig7Chorddm = sigTriadd ++ [10]
