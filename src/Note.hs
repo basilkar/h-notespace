@@ -576,6 +576,17 @@ Still, for Part B of "This song will die", we are (indeed) in uncharted territor
 > icsRecognizer [E, F, Gs, As, B, Cs, Ds] E
 "unknown pattern"
 
+Fishing out chords for Pan Construction "Death Angel": 
+
+> icsRecognizer [E, F, G, Gs, B, C, D] E
+"SCALE: E phrygian b4, aka altered 5; the third mode of Cs harmonic major"
+
+> signatureByNotes [E, F, G, Gs, B, C, D]
+[0,1,3,4,7,8,10]
+
+> scalechordRecognizer E [0,1,3,4,7,8,10]
+["TRIAD: E major","TRIAD: G major","TRIAD: C major","TRIAD: E minor","TRIAD: F minor","TRIAD: E augmented","TRIAD: Gs augmented","TRIAD: C augmented","TRIAD: F diminished","TRIAD: Gs diminished","TRIAD: B diminished","TRIAD: D diminished","TETRAD: C major seventh","TETRAD: E seventh","TETRAD: G seventh","TETRAD: F minor major seventh","TETRAD: E minor seventh","TETRAD: D half-diminished, aka minor seventh b5","TETRAD: E augmented seventh"]
+
 -}
 
 {-----------------------------------------------------}
