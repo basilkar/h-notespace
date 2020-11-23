@@ -473,7 +473,7 @@ INPUT a list of notes and a note
 OUTPUT a list of lists of notes from the given scale that fit the given signature
 
 -}
-
+-- TODO: check the signatures again thoroughly
 icsRecognizer :: [Note] -> Note -> String
 icsRecognizer ns n
     | length ns == 0 = "not a pattern"
@@ -541,7 +541,7 @@ icsRecognizer ns n
     | sig == sigMode 7 sigScaleMh = "SCALE: " ++ show n ++ " locrian b7, aka locrian bb7, aka locrian diminished; the seventh mode of " ++ show (toNote $ (fromEnum n) - 11 ) ++ " harmonic major"
     -- modes of the double harmonic scale
     | sig == sigMode 2 sigScaledh = "SCALE: " ++ show n ++ " lydian #2 #6; the second mode of " ++ show (toNote $ (fromEnum n) - 2 ) ++ " double harmonic"
-    | sig == sigMode 3 sigScaledh = "SCALE: " ++ show n ++ " ultraphrygian, aka phrygian b4 bb7; the third mode of " ++ show (toNote $ (fromEnum n) - 3 ) ++ " double harmonic"
+    | sig == sigMode 3 sigScaledh = "SCALE: " ++ show n ++ " ultraphrygian, aka phrygian b4 bb7; the third mode of " ++ show (toNote $ (fromEnum n) - 4 ) ++ " double harmonic"
     | sig == sigMode 4 sigScaledh = "SCALE: " ++ show n ++ " hungarian minor, aka double harmonic minor, aka harmonic minor #4, aka gypsy minor; the fourth mode of " ++ show (toNote $ (fromEnum n) - 4 ) ++ " double harmonic"
     | sig == sigMode 5 sigScaledh = "SCALE: " ++ show n ++ " oriental, aka locrian 3 6, aka mixolydian b2 b5; the fifth mode of " ++ show (toNote $ (fromEnum n) - 7 ) ++ " double harmonic"
     | sig == sigMode 6 sigScaledh = "SCALE: " ++ show n ++ " ionian augmented #2, aka ionian #2 #5; the sixth mode of " ++ show (toNote $ (fromEnum n) - 8 ) ++ " double harmonic"
