@@ -4,73 +4,194 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5485bfc96bdcba5ec928662376abadbc6915513c89700e513de38267a510b7d5
+-- hash: 3cd206784075c2ece306af3381b6eb0b0cab84e090be6a84fbdf3aa76daf4e36
 
 name:           h-notespace
-version:        0.1.0.0
-description:    Yet another music app. Please see the README on GitHub at <https://github.com/githubuser/h-notespace#readme>
-homepage:       https://github.com/githubuser/h-notespace#readme
-bug-reports:    https://github.com/githubuser/h-notespace/issues
-author:         sw.h.basil
-maintainer:     sw.h.basil@gmail.com
-copyright:      2020 sw.h.basil
-license:        BSD3
-license-file:   LICENSE
+version:        0.0.0
 build-type:     Simple
-extra-source-files:
-    README.md
-    ChangeLog.md
 
-source-repository head
-  type: git
-  location: https://github.com/githubuser/h-notespace
+flag dev
+  description: Turn on development settings, like auto-reload templates.
+  manual: False
+  default: False
+
+flag library-only
+  description: Build for use with "yesod devel"
+  manual: False
+  default: False
 
 library
   exposed-modules:
-      Chord
-      Guitar
-      Note
-      Rhythm
-      Tymoczko
-      Utils
+      Application
+      Foundation
+      Handler.Comment
+      Handler.Common
+      Handler.Home
+      Handler.Profile
+      Import
+      Import.NoFoundation
+      Model
+      Settings
+      Settings.StaticFiles
   other-modules:
       Paths_h_notespace
   hs-source-dirs:
       src
   build-depends:
-      array >=0.5.4.0
-    , base >=4.7 && <5
-    , combinat
-    , random
+      aeson >=1.4 && <1.5
+    , base >=4.9.1.0 && <5
+    , bytestring >=0.10 && <0.11
+    , case-insensitive
+    , classy-prelude >=1.5 && <1.6
+    , classy-prelude-conduit >=1.5 && <1.6
+    , classy-prelude-yesod >=1.5 && <1.6
+    , conduit >=1.0 && <2.0
+    , containers
+    , data-default
+    , directory >=1.1 && <1.4
+    , fast-logger >=2.2 && <3.1
+    , file-embed
+    , foreign-store
+    , hjsmin >=0.1 && <0.3
+    , http-client-tls >=0.3 && <0.4
+    , http-conduit >=2.3 && <2.4
+    , monad-control >=0.3 && <1.1
+    , monad-logger >=0.3 && <0.4
+    , persistent >=2.9 && <2.11
+    , persistent-sqlite >=2.9 && <2.11
+    , persistent-template >=2.5 && <2.9
+    , safe
+    , shakespeare >=2.0 && <2.1
+    , template-haskell
+    , text >=0.11 && <2.0
+    , time
+    , unordered-containers
+    , vector
+    , wai
+    , wai-extra >=3.0 && <3.1
+    , wai-logger >=2.2 && <2.4
+    , warp >=3.0 && <3.4
+    , yaml >=0.11 && <0.12
+    , yesod >=1.6 && <1.7
+    , yesod-auth >=1.6 && <1.7
+    , yesod-core >=1.6 && <1.7
+    , yesod-form >=1.6 && <1.7
+    , yesod-static >=1.6 && <1.7
+  if (flag(dev)) || (flag(library-only))
+    ghc-options: -Wall -fwarn-tabs -O0
+    cpp-options: -DDEVELOPMENT
+  else
+    ghc-options: -Wall -fwarn-tabs -O2
   default-language: Haskell2010
 
-executable h-notespace-exe
-  main-is: Main.hs
+executable h-notespace
+  main-is: main.hs
   other-modules:
+      DevelMain
       Paths_h_notespace
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      array >=0.5.4.0
-    , base >=4.7 && <5
-    , combinat
+      aeson >=1.4 && <1.5
+    , base >=4.9.1.0 && <5
+    , bytestring >=0.10 && <0.11
+    , case-insensitive
+    , classy-prelude >=1.5 && <1.6
+    , classy-prelude-conduit >=1.5 && <1.6
+    , classy-prelude-yesod >=1.5 && <1.6
+    , conduit >=1.0 && <2.0
+    , containers
+    , data-default
+    , directory >=1.1 && <1.4
+    , fast-logger >=2.2 && <3.1
+    , file-embed
+    , foreign-store
     , h-notespace
-    , random
+    , hjsmin >=0.1 && <0.3
+    , http-client-tls >=0.3 && <0.4
+    , http-conduit >=2.3 && <2.4
+    , monad-control >=0.3 && <1.1
+    , monad-logger >=0.3 && <0.4
+    , persistent >=2.9 && <2.11
+    , persistent-sqlite >=2.9 && <2.11
+    , persistent-template >=2.5 && <2.9
+    , safe
+    , shakespeare >=2.0 && <2.1
+    , template-haskell
+    , text >=0.11 && <2.0
+    , time
+    , unordered-containers
+    , vector
+    , wai
+    , wai-extra >=3.0 && <3.1
+    , wai-logger >=2.2 && <2.4
+    , warp >=3.0 && <3.4
+    , yaml >=0.11 && <0.12
+    , yesod >=1.6 && <1.7
+    , yesod-auth >=1.6 && <1.7
+    , yesod-core >=1.6 && <1.7
+    , yesod-form >=1.6 && <1.7
+    , yesod-static >=1.6 && <1.7
+  if flag(library-only)
+    buildable: False
   default-language: Haskell2010
 
 test-suite h-notespace-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Handler.CommentSpec
+      Handler.CommonSpec
+      Handler.HomeSpec
+      Handler.ProfileSpec
+      TestImport
       Paths_h_notespace
   hs-source-dirs:
       test
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall
   build-depends:
-      array >=0.5.4.0
-    , base >=4.7 && <5
-    , combinat
+      aeson >=1.4 && <1.5
+    , base >=4.9.1.0 && <5
+    , bytestring >=0.10 && <0.11
+    , case-insensitive
+    , classy-prelude >=1.5 && <1.6
+    , classy-prelude-conduit >=1.5 && <1.6
+    , classy-prelude-yesod >=1.5 && <1.6
+    , conduit >=1.0 && <2.0
+    , containers
+    , data-default
+    , directory >=1.1 && <1.4
+    , fast-logger >=2.2 && <3.1
+    , file-embed
+    , foreign-store
     , h-notespace
-    , random
+    , hjsmin >=0.1 && <0.3
+    , hspec >=2.0.0
+    , http-client-tls >=0.3 && <0.4
+    , http-conduit >=2.3 && <2.4
+    , microlens
+    , monad-control >=0.3 && <1.1
+    , monad-logger >=0.3 && <0.4
+    , persistent >=2.9 && <2.11
+    , persistent-sqlite >=2.9 && <2.11
+    , persistent-template >=2.5 && <2.9
+    , safe
+    , shakespeare >=2.0 && <2.1
+    , template-haskell
+    , text >=0.11 && <2.0
+    , time
+    , unordered-containers
+    , vector
+    , wai
+    , wai-extra >=3.0 && <3.1
+    , wai-logger >=2.2 && <2.4
+    , warp >=3.0 && <3.4
+    , yaml >=0.11 && <0.12
+    , yesod >=1.6 && <1.7
+    , yesod-auth >=1.6 && <1.7
+    , yesod-core >=1.6 && <1.7
+    , yesod-form >=1.6 && <1.7
+    , yesod-static >=1.6 && <1.7
+    , yesod-test
   default-language: Haskell2010
