@@ -24,7 +24,7 @@ data Chord = ChordBot | Single Note | Dyad Chord Chord | Triad Chord Chord Chord
 
 e_minor_over_c = Dyad (Single C) (Triad (Single E) (Single G) (Single B))
 a_over_c_major = Dyad (Triad (Single C) (Single E) (Single G)) (Single A)
-c_major_extended = Dyad (Triad (Single C) (Single E) (Single G)) (ChordBot)
+c_major_extended = Dyad (Triad (Single C) (Single E) (Single G)) ChordBot
 
 {-
 
@@ -48,10 +48,10 @@ There is a bunch of functions to be defined on any inductive datatype. Note that
 sizeOfChordToken :: Chord -> Int
 sizeOfChordToken ChordBot           = 0
 sizeOfChordToken (Single _)         = 1
-sizeOfChordToken (Dyad c d)         = 1 + (sizeOfChordToken c) + (sizeOfChordToken d)
-sizeOfChordToken (Triad c d e)      = 1 + (sizeOfChordToken c) + (sizeOfChordToken d) + (sizeOfChordToken e)
-sizeOfChordToken (Tetrad c d e f)   = 1 + (sizeOfChordToken c) + (sizeOfChordToken d) + (sizeOfChordToken e) + (sizeOfChordToken f)
-sizeOfChordToken (Pentad c d e f g) = 1 + (sizeOfChordToken c) + (sizeOfChordToken d) + (sizeOfChordToken e) + (sizeOfChordToken f) + (sizeOfChordToken g)
+sizeOfChordToken (Dyad c d)         = 1 + sizeOfChordToken c + sizeOfChordToken d
+sizeOfChordToken (Triad c d e)      = 1 + sizeOfChordToken c + sizeOfChordToken d + sizeOfChordToken e
+sizeOfChordToken (Tetrad c d e f)   = 1 + sizeOfChordToken c + sizeOfChordToken d + sizeOfChordToken e + sizeOfChordToken f
+sizeOfChordToken (Pentad c d e f g) = 1 + sizeOfChordToken c + sizeOfChordToken d + sizeOfChordToken e + sizeOfChordToken f + sizeOfChordToken g
 
 heightOfChordToken :: Chord -> Int
 heightOfChordToken ChordBot             = 0
@@ -66,20 +66,20 @@ heightOfChordToken (Pentad c d e f g)   = 1 + maximum [heightOfChordToken c, hei
 sizeOfChord :: Chord -> Int
 sizeOfChord ChordBot            = 0
 sizeOfChord (Single _)          = 1
-sizeOfChord (Dyad c d)          = (sizeOfChord c) + (sizeOfChord d)
-sizeOfChord (Triad c d e)       = (sizeOfChord c) + (sizeOfChord d) + (sizeOfChord e)
-sizeOfChord (Tetrad c d e f)    = (sizeOfChord c) + (sizeOfChord d) + (sizeOfChord e) + (sizeOfChord f)
-sizeOfChord (Pentad c d e f g)  = (sizeOfChord c) + (sizeOfChord d) + (sizeOfChord e) + (sizeOfChord f) + (sizeOfChord g)
+sizeOfChord (Dyad c d)          = sizeOfChord c + sizeOfChord d
+sizeOfChord (Triad c d e)       = sizeOfChord c + sizeOfChord d + sizeOfChord e
+sizeOfChord (Tetrad c d e f)    = sizeOfChord c + sizeOfChord d + sizeOfChord e + sizeOfChord f
+sizeOfChord (Pentad c d e f g)  = sizeOfChord c + sizeOfChord d + sizeOfChord e + sizeOfChord f + sizeOfChord g
 
 -- The yield of a token, that is, its leaves, that is, its actual notes.
 
 yieldOfChord :: Chord -> [Note]
 yieldOfChord ChordBot           = []
 yieldOfChord (Single n)         = [n]
-yieldOfChord (Dyad c d)         = (yieldOfChord c) ++ (yieldOfChord d)
-yieldOfChord (Triad c d e)      = (yieldOfChord c) ++ (yieldOfChord d) ++ (yieldOfChord e)
-yieldOfChord (Tetrad c d e f)   = (yieldOfChord c) ++ (yieldOfChord d) ++ (yieldOfChord e) ++ (yieldOfChord f)
-yieldOfChord (Pentad c d e f g) = (yieldOfChord c) ++ (yieldOfChord d) ++ (yieldOfChord e) ++ (yieldOfChord f) ++ (yieldOfChord g)
+yieldOfChord (Dyad c d)         = yieldOfChord c ++ yieldOfChord d
+yieldOfChord (Triad c d e)      = yieldOfChord c ++ yieldOfChord d ++ yieldOfChord e
+yieldOfChord (Tetrad c d e f)   = yieldOfChord c ++ yieldOfChord d ++ yieldOfChord e ++ yieldOfChord f
+yieldOfChord (Pentad c d e f g) = yieldOfChord c ++ yieldOfChord d ++ yieldOfChord e ++ yieldOfChord f ++ yieldOfChord g
 
 {- EXAMPLES
 
@@ -130,9 +130,9 @@ arity :: Chord -> Int
 arity ChordBot              = 0
 arity (Single _)            = 0 -- here Single is treated as a nullary constructor!
 arity (Dyad _ _)            = 2
-arity (Triad _ _ _)         = 3
-arity (Tetrad _ _ _ _)      = 4
-arity (Pentad _ _ _ _ _)    = 5
+arity Triad {}         = 3
+arity Tetrad {}      = 4
+arity Pentad {}    = 5
 
 -- Define the list of component tokens of a given token.
 
@@ -149,10 +149,10 @@ tokenComponents (Pentad c d e f g)   = [c, d, e, f, g]
 subtokens :: Chord -> [Chord]
 subtokens ChordBot              = [ChordBot]
 subtokens (Single n)            = [Single n]
-subtokens (Dyad c d)            = [Dyad c d] ++ (subtokens c) ++ (subtokens d)
-subtokens (Triad c d e)         = [Triad c d e] ++ (subtokens c) ++ (subtokens d) ++ (subtokens e)
-subtokens (Tetrad c d e f)      = [Tetrad c d e f] ++ (subtokens c) ++ (subtokens d) ++ (subtokens e) ++ (subtokens f)
-subtokens (Pentad c d e f g)    = [Pentad c d e f g] ++ (subtokens c) ++ (subtokens d) ++ (subtokens e) ++ (subtokens f) ++ (subtokens g)
+subtokens (Dyad c d)            = [Dyad c d] ++ subtokens c ++ subtokens d
+subtokens (Triad c d e)         = [Triad c d e] ++ subtokens c ++ subtokens d ++ subtokens e
+subtokens (Tetrad c d e f)      = [Tetrad c d e f] ++ subtokens c ++ subtokens d ++ subtokens e ++ subtokens f
+subtokens (Pentad c d e f g)    = [Pentad c d e f g] ++ subtokens c ++ subtokens d ++ subtokens e ++ subtokens f ++ subtokens g
 
 
 {- EXAMPLES
@@ -220,7 +220,7 @@ sufficient u ctr us
     | not (consistentL u) = error "sufficient: inconsistent list"
     | ctr /= headToken ctr = error "sufficient: not a constructor"
     | length us /= r = error "sufficient: too few or too many arguments"
-    | otherwise = all (\ i -> all (\ b -> any (\ a -> headToken a == ctr && ((tokenComponents a) !! (i - 1)) == b) u) (us !!(i-1))) indices
+    | otherwise = all (\ i -> all (\ b -> any (\ a -> headToken a == ctr && tokenComponents a !! (i - 1) == b) u) (us !!(i-1))) indices
     where
         r = arity ctr
         indices = [1..r]
@@ -231,7 +231,7 @@ ctrapply :: Chord -> [[Chord]] -> [Chord]
 ctrapply ctr us
     | ctr /= ctrhead                                                    = error "ctrapply: not a constructor"
 --     | any (\ u -> u == []) us                                           = error "ctrapply: empty argument" -- if you include this line the pathform below crashes; in any case, you would need the line in the definition of entails, if you were to use ctrapply there
-    | any (\ u -> not (consistentL u)) us                               = error "ctrapply: inconsistent argument"
+    | not (all consistentL us)                               = error "ctrapply: inconsistent argument"
     | length us /= arity ctr                                            = error "ctrapply: too few or too many arguments"
     | ctrhead == ChordBot                                               = [ChordBot]
     | ctrhead == Single A                                               = [Single A]
@@ -246,17 +246,17 @@ ctrapply ctr us
     | ctrhead == Single Fs                                              = [Single Fs]
     | ctrhead == Single G                                               = [Single G]
     | ctrhead == Single Gs                                              = [Single Gs]
-    | ctrhead == Dyad ChordBot ChordBot                                 = [Dyad a b | a <- (us !! 0), b <- (us !! 1)]
-    | ctrhead == Triad ChordBot ChordBot ChordBot                       = [Triad a b c | a <- (us !! 0), b <- (us !! 1), c <- (us !! 2)]
-    | ctrhead == Tetrad ChordBot ChordBot ChordBot ChordBot             = [Tetrad a b c d | a <- (us !! 0), b <- (us !! 1), c <- (us !! 2), d <- (us !! 3)]
-    | ctrhead == Pentad ChordBot ChordBot ChordBot ChordBot ChordBot    = [Pentad a b c d e | a <- (us !! 0), b <- (us !! 1), c <- (us !! 2), d <- (us !! 3), e <- (us !! 4)]
+    | ctrhead == Dyad ChordBot ChordBot                                 = [Dyad a b | a <- head us, b <- us !! 1]
+    | ctrhead == Triad ChordBot ChordBot ChordBot                       = [Triad a b c | a <- head us, b <- us !! 1, c <- us !! 2]
+    | ctrhead == Tetrad ChordBot ChordBot ChordBot ChordBot             = [Tetrad a b c d | a <- head us, b <- us !! 1, c <- us !! 2, d <- us !! 3]
+    | ctrhead == Pentad ChordBot ChordBot ChordBot ChordBot ChordBot    = [Pentad a b c d e | a <- head us, b <- us !! 1, c <- us !! 2, d <- us !! 3, e <- us !! 4]
     where
         ctrhead = headToken ctr
 
 -- The following strips a neighborhood of its bottom tokens.
 
 stripBot :: [Chord] -> [Chord]
-stripBot u = filter (\ a -> a /= ChordBot) u
+stripBot = filter (/= ChordBot)
 
 -- Define the predicate of entailment; interesting that it works without ctrapply or stripBot -- this needs testing.
 
@@ -274,7 +274,7 @@ entails u a
 -- Finally, define the lift of entails between lists.
 
 entailsL :: [Chord] -> [Chord] -> Bool
-entailsL u v = all (\ b -> u `entails` b) v
+entailsL u = all (\ b -> u `entails` b)
 
 {- EXAMPLES
 
@@ -315,18 +315,18 @@ True
 sup :: Chord -> Chord -> Chord
 sup ChordBot a = a
 sup a ChordBot = a
-sup (Single A) (Single A) = (Single A)
-sup (Single As) (Single As) = (Single As)
-sup (Single B) (Single B) = (Single B)
-sup (Single C) (Single C) = (Single C)
-sup (Single Cs) (Single Cs) = (Single Cs)
-sup (Single D) (Single D) = (Single D)
-sup (Single Ds) (Single Ds) = (Single Ds)
-sup (Single E) (Single E) = (Single E)
-sup (Single F) (Single F) = (Single F)
-sup (Single Fs) (Single Fs) = (Single Fs)
-sup (Single G) (Single G) = (Single G)
-sup (Single Gs) (Single Gs) = (Single Gs)
+sup (Single A) (Single A) = Single A
+sup (Single As) (Single As) = Single As
+sup (Single B) (Single B) = Single B
+sup (Single C) (Single C) = Single C
+sup (Single Cs) (Single Cs) = Single Cs
+sup (Single D) (Single D) = Single D
+sup (Single Ds) (Single Ds) = Single Ds
+sup (Single E) (Single E) = Single E
+sup (Single F) (Single F) = Single F
+sup (Single Fs) (Single Fs) = Single Fs
+sup (Single G) (Single G) = Single G
+sup (Single Gs) (Single Gs) = Single Gs
 sup (Dyad a b) (Dyad a' b') = Dyad (sup a a') (sup b b')
 sup (Triad a b c) (Triad a' b' c') = Triad (sup a a') (sup b b') (sup c c')
 sup (Tetrad a b c d) (Tetrad a' b' c' d') = Tetrad (sup a a') (sup b b') (sup c c') (sup d d')
@@ -354,10 +354,10 @@ paths (Single F)          = [Single F]
 paths (Single Fs)         = [Single Fs]
 paths (Single G)          = [Single G]
 paths (Single Gs)         = [Single Gs]
-paths (Dyad a b)          = nub $ (ctrapply (Dyad ChordBot ChordBot) [stripBot $ paths a, [ChordBot]]) ++ (ctrapply (Dyad ChordBot ChordBot) [[ChordBot], stripBot $ paths b])
-paths (Triad a b c)       = nub $ (ctrapply (Triad ChordBot ChordBot ChordBot) [stripBot $ paths a, [ChordBot], [ChordBot]]) ++ (ctrapply (Triad ChordBot ChordBot ChordBot) [[ChordBot], stripBot $ paths b, [ChordBot]]) ++ (ctrapply (Triad ChordBot ChordBot ChordBot)  [[ChordBot], [ChordBot], stripBot $ paths c])
-paths (Tetrad a b c d)    = nub $ (ctrapply (Tetrad ChordBot ChordBot ChordBot ChordBot) [stripBot $ paths a, [ChordBot], [ChordBot], [ChordBot]]) ++ (ctrapply (Tetrad ChordBot ChordBot ChordBot ChordBot) [[ChordBot], stripBot $ paths b, [ChordBot], [ChordBot]]) ++ (ctrapply (Tetrad ChordBot ChordBot ChordBot ChordBot)  [[ChordBot], [ChordBot], stripBot $ paths c, [ChordBot]]) ++ (ctrapply (Tetrad ChordBot ChordBot ChordBot ChordBot) [[ChordBot], [ChordBot], [ChordBot], stripBot $ paths d])
-paths (Pentad a b c d e)  = nub $ (ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot) [stripBot $ paths a, [ChordBot], [ChordBot], [ChordBot], [ChordBot]]) ++ (ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot) [[ChordBot], stripBot $ paths b, [ChordBot], [ChordBot], [ChordBot]]) ++ (ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot)  [[ChordBot], [ChordBot], stripBot $ paths c, [ChordBot], [ChordBot]]) ++ (ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot) [[ChordBot], [ChordBot], [ChordBot], stripBot $ paths d, [ChordBot]]) ++ (ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot) [[ChordBot], [ChordBot], [ChordBot], [ChordBot], stripBot $ paths e])
+paths (Dyad a b)          = nub $ ctrapply (Dyad ChordBot ChordBot) [stripBot $ paths a, [ChordBot]] ++ ctrapply (Dyad ChordBot ChordBot) [[ChordBot], stripBot $ paths b]
+paths (Triad a b c)       = nub $ ctrapply (Triad ChordBot ChordBot ChordBot) [stripBot $ paths a, [ChordBot], [ChordBot]] ++ ctrapply (Triad ChordBot ChordBot ChordBot) [[ChordBot], stripBot $ paths b, [ChordBot]] ++ ctrapply (Triad ChordBot ChordBot ChordBot)  [[ChordBot], [ChordBot], stripBot $ paths c]
+paths (Tetrad a b c d)    = nub $ ctrapply (Tetrad ChordBot ChordBot ChordBot ChordBot) [stripBot $ paths a, [ChordBot], [ChordBot], [ChordBot]] ++ ctrapply (Tetrad ChordBot ChordBot ChordBot ChordBot) [[ChordBot], stripBot $ paths b, [ChordBot], [ChordBot]] ++ ctrapply (Tetrad ChordBot ChordBot ChordBot ChordBot)  [[ChordBot], [ChordBot], stripBot $ paths c, [ChordBot]] ++ ctrapply (Tetrad ChordBot ChordBot ChordBot ChordBot) [[ChordBot], [ChordBot], [ChordBot], stripBot $ paths d]
+paths (Pentad a b c d e)  = nub $ ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot) [stripBot $ paths a, [ChordBot], [ChordBot], [ChordBot], [ChordBot]] ++ ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot) [[ChordBot], stripBot $ paths b, [ChordBot], [ChordBot], [ChordBot]] ++ ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot)  [[ChordBot], [ChordBot], stripBot $ paths c, [ChordBot], [ChordBot]] ++ ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot) [[ChordBot], [ChordBot], [ChordBot], stripBot $ paths d, [ChordBot]] ++ ctrapply (Pentad ChordBot ChordBot ChordBot ChordBot ChordBot) [[ChordBot], [ChordBot], [ChordBot], [ChordBot], stripBot $ paths e]
 
 pathsL :: [Chord] -> [Chord]
 pathsL u = paths (supL u)
@@ -399,21 +399,21 @@ Triad *** Exception: sup: inconsistent tokens
 -- it's high time we had some pretty-printing...
 
 ppn :: Note -> String
-ppn n = show n
+ppn = show
 
 ppnL :: [Note] -> [String]
-ppnL ns = map ppn ns
+ppnL = map ppn
 
 ppc :: Chord -> String
 ppc ChordBot           = "*"
 ppc (Single n)         = ppn n
-ppc (Dyad c d)         = "(2" ++ (ppc c) ++ (ppc d) ++ ")"
-ppc (Triad c d e)      = "(3" ++ (ppc c) ++ (ppc d) ++ (ppc e) ++ ")"
-ppc (Tetrad c d e f)   = "(4" ++ (ppc c) ++ (ppc d) ++ (ppc e) ++ (ppc f) ++ ")"
-ppc (Pentad c d e f g) = "(5" ++ (ppc c) ++ (ppc d) ++ (ppc e) ++ (ppc f) ++ (ppc g) ++ ")"
+ppc (Dyad c d)         = "(2" ++ ppc c ++ ppc d ++ ")"
+ppc (Triad c d e)      = "(3" ++ ppc c ++ ppc d ++ ppc e ++ ")"
+ppc (Tetrad c d e f)   = "(4" ++ ppc c ++ ppc d ++ ppc e ++ ppc f ++ ")"
+ppc (Pentad c d e f g) = "(5" ++ ppc c ++ ppc d ++ ppc e ++ ppc f ++ ppc g ++ ")"
 
 ppcL :: [Chord] -> [String]
-ppcL as = map ppc as
+ppcL = map ppc
 
 {- EXAMPLES
 

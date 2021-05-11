@@ -22,7 +22,7 @@ The point of departure is to understand that "n-chords" are simply n-tuples of n
 
 submaj :: [Int] -> [Int] -> Bool
 submaj xs ys
-  | length ys == len = foldl (&&) True [(sum $ take i sxs) <= (sum $ take i sys) | i <- [1..len]]
+  | length ys == len = and [sum (take i sxs) <= sum (take i sys) | i <- [1..len]]
   | otherwise = error "submaj: inputs have unequal length"
   where
     len = length xs
@@ -129,7 +129,7 @@ True
 -- Now to the concept of T-closeness. Given a change X = {x_1, ..., x_n}, say "absolute change" and write |X| for the change {|x_1|, ..., |x_n|}; also, write X-x for the change {x_1 - x, ..., x_n - x}. A straightforward interpretation of Definition 6 of Hall & Tymoczko, leads us to say that an n-change W is T-smaller than an n-change V if and only if for all 1-changes x there exist 1-changes y such that the absolute change |W - y| is submajorized by the absolute change |V - x|. The immediate questions are: is the carrier of x exhaustible? is the carrier of y searchable? (in the sense of [Escardo-2008]) Well, duh: in our case they can both taken to be finite, so apparently we don't even need the authors' algorithm in Appendix A.2.
 
 tsmaller :: [Int] -> [Int] -> Bool
-tsmaller ws vs = all (\ x -> (any (\ y -> submaj (map abs $ map (\ w -> w - y) ws) (map abs $ map (\ v -> v - x) vs)) xyrange)) xyrange
+tsmaller ws vs = all (\ x -> any (\ y -> submaj (map (abs . (\ w -> w - y)) ws) (map (abs . (\ v -> v - x)) vs)) xyrange) xyrange
   where
     xyrange = [1..12]
 
@@ -149,7 +149,7 @@ False
 middleInterval :: (Fractional t, Ord t) => [t] -> [t]
 middleInterval xs = [minimum mset, maximum mset]
   where
-    mset = map (\ (m, n) -> (m + n)/2) $ zip supxs sdownxs
+    mset = zipWith (\ m n -> (m + n) / 2) supxs sdownxs
     supxs = sort xs
     sdownxs = sortDesc xs
 
