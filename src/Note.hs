@@ -251,7 +251,7 @@ signatureByNotes ns = [halfstepsDirectedDistance (head ns) n | n <- ns]
 -- In order to get the modes of a given scale, or the inversions of a given chord, we first define the cyclic permutations of a (finite) list.
 
 cyclicPermutation :: Int -> [a] -> [a]
-cyclicPermutation m []     = []
+cyclicPermutation _ []     = []
 cyclicPermutation m xs     = take l (drop m cxs)
     where cxs = cycle xs
           l = length xs
