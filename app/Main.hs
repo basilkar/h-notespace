@@ -34,7 +34,7 @@ quizzer = do
 
 improSuggester :: IO ()
 improSuggester = do
-    putStrLn "IMPRO SUGGESTER: What notes do you want to improvize over?"
+    putStrLn "IMPRO SUGGESTER: What notes do you want to improvize over? (e.g., A, B, Cs,...)"
     let inputs = []
     notes <- charInputsToNotes inputs
     putStrLn "IMPRO SUGGESTER: You chose the notes:"
