@@ -20,6 +20,29 @@ data Note = A | As | B | C | Cs | D | Ds | E | F | Fs | G | Gs
 toNote :: Int -> Note
 toNote m = toEnum $ m `mod` 12
 
+-- And here's a function turning a string into a note.
+
+charsToNote :: String -> Maybe Note
+charsToNote chars = case chars of
+    "A" -> Just A
+    "As" -> Just As
+    "Bb" -> Just As
+    "B" -> Just B
+    "C" -> Just C
+    "Cs" -> Just Cs
+    "Db" -> Just Cs
+    "D" -> Just D
+    "Ds" -> Just Ds
+    "Eb" -> Just Ds
+    "E" -> Just E
+    "F" -> Just F
+    "Fs" -> Just Fs
+    "Gb" -> Just Fs
+    "G" -> Just G
+    "Gs" -> Just Gs
+    "Ab" -> Just Gs
+    _ -> Nothing
+
 -- An auxiliary function that gives the note m halfsteps above the note r (the "root").
 
 halfsteps :: Note -> Int -> Note
