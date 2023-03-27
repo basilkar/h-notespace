@@ -4,8 +4,8 @@ import Data.Maybe
 
 import Note
 
-main :: IO ()
-main = do
+improSuggester :: IO ()
+improSuggester = do
     putStrLn "IMPRO SUGGESTER: What notes do you want to improvize over? (e.g., A, B, Cs,...)"
     let inputs = []
     notes <- charInputsToNotes inputs

@@ -5,8 +5,7 @@ import Data.Maybe
 import System.Random
 
 import FretboardQuizzer
-import Guitar
-import Note
+import ImproSuggester
 
 main :: IO ()
 main = do
@@ -16,48 +15,5 @@ main = do
     choice <- getLine
     case choice of
         "1" -> FretboardQuizzer.fretboardQuizzer
-        "2" -> improSuggester
+        "2" -> ImproSuggester.improSuggester
         _ -> putStr "No computation chosen; exiting"
-
---quizzer :: IO ()
---quizzer = do
---    let loop = do {g <- newStdGen
---        ; let b = head (randoms g :: [Bool])
---        ; if b
---            then fretboardQuizOneStandard
---            else fretboardQuizTwoStandard
---        ; putStrLn " Hit enter to continue or enter an arbitrary key to exit."
---        ; usersays <- getLine
---        ; when (usersays == "") loop}
---    loop
-
-improSuggester :: IO ()
-improSuggester = do
-    putStrLn "IMPRO SUGGESTER: What notes do you want to improvize over? (e.g., A, B, Cs,...)"
-    let inputs = []
-    notes <- charInputsToNotes inputs
-    putStrLn "IMPRO SUGGESTER: You chose the notes:"
-    print notes
-    putStrLn "IMPRO SUGGESTER: What would be the root? (e.g., E)"
-    charsRoot <- getLine
-    root <- charInputToNote charsRoot
-    putStrLn "IMPRO SUGGESTER: Here are scales to use:"
-    print (scaleSuggester notes root)
-    putStrLn "IMPRO SUGGESTER: Here are triads to use:"
-    print (triadSuggester notes root)
-
-charInputsToNotes :: [String] -> IO [Note]
-charInputsToNotes xs = do
-    putStrLn "IMPRO SUGGESTER: Enter a note to continue or just hit enter to finish:"
-    input <- getLine
-    if input == ""
-        then return (stripNothing (map charsToNote xs))
-        else charInputsToNotes (input : xs)
-
-charInputToNote :: String -> IO (Note)
-charInputToNote input = return (fromJust (charsToNote input))
-
-stripNothing :: [Maybe a] -> [a]
-stripNothing [] = []
-stripNothing (Nothing:xs) = stripNothing xs
-stripNothing ((Just x):xs) = x: stripNothing xs
