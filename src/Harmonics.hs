@@ -1,3 +1,5 @@
+module Harmonics where
+
 import Data.List
 import Data.Maybe
 

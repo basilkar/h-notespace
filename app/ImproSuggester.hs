@@ -1,38 +1,11 @@
-module Main where
+module ImproSuggester where
 
-import Control.Monad -- for the loop-while in the main quiz
 import Data.Maybe
-import System.Random
 
-import FretboardQuizzer
-import Guitar
 import Note
 
 main :: IO ()
 main = do
-    putStrLn "Choose computation:"
-    putStrLn "1 fretboard quizzer"
-    putStrLn "2 impro suggester"
-    choice <- getLine
-    case choice of
-        "1" -> FretboardQuizzer.fretboardQuizzer
-        "2" -> improSuggester
-        _ -> putStr "No computation chosen; exiting"
-
---quizzer :: IO ()
---quizzer = do
---    let loop = do {g <- newStdGen
---        ; let b = head (randoms g :: [Bool])
---        ; if b
---            then fretboardQuizOneStandard
---            else fretboardQuizTwoStandard
---        ; putStrLn " Hit enter to continue or enter an arbitrary key to exit."
---        ; usersays <- getLine
---        ; when (usersays == "") loop}
---    loop
-
-improSuggester :: IO ()
-improSuggester = do
     putStrLn "IMPRO SUGGESTER: What notes do you want to improvize over? (e.g., A, B, Cs,...)"
     let inputs = []
     notes <- charInputsToNotes inputs
