@@ -6,6 +6,7 @@ import System.Random
 
 import FretboardQuizzer
 import ImproSuggester
+import Recognizer
 
 main :: IO ()
 main = do
@@ -13,11 +14,13 @@ main = do
     let loop = do {
         putStrLn "Choose calculation (or 0 to exit):"
         ; putStrLn "1 impro suggester"
-        ; putStrLn "2 fretboard quizzer"
+        ; putStrLn "2 recognizer"
+        ; putStrLn "3 fretboard quizzer"
         ; choice <- getLine
         ; case choice of
               "0" -> putStrLn "Exiting."
               "1" -> do {ImproSuggester.improSuggester ; loop}
-              "2" -> do {FretboardQuizzer.fretboardQuizzer ; loop}
+              "2" -> do {Recognizer.recognizer; loop}
+              "3" -> do {FretboardQuizzer.fretboardQuizzer ; loop}
               _ -> do {putStr "No valid computation chosen." ; loop}}
     loop

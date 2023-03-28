@@ -6,7 +6,7 @@ import Note
 
 charInputsToNotes :: [String] -> IO [Note]
 charInputsToNotes xs = do
-    putStrLn "IMPRO SUGGESTER: Enter a note to continue or just hit enter to finish:"
+    putStrLn " Enter a note to continue or just hit enter to finish:"
     input <- getLine
     if input == ""
         then return (stripNothing (map charsToNote xs))

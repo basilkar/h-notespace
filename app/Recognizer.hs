@@ -3,8 +3,23 @@ module Recognizer where
 import Data.List -- for sorting lists, for nub
 
 import ScaleChordsFinder
+import IOUtils
 
 import Note
+
+
+recognizer :: IO ()
+recognizer = do
+    putStrLn "RECOGNIZER: What notes do you want to recognize?"
+    let inputs = []
+    notes <- charInputsToNotes inputs
+    putStrLn "RECOGNIZER: You chose the notes:"
+    print notes
+    putStrLn "RECOGNIZER: What would be the root?"
+    charsRoot <- getLine
+    root <- charInputToNote charsRoot
+    putStr "RECOGNIZER: "
+    print (icsRecognizer notes root)
 
 {-------------------------------------------------------}
 {- 1.3 -- APPLICATION: INTERVAL-CHORD-SCALE RECOGNIZER -}
