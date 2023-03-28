@@ -9,11 +9,16 @@ import ImproSuggester
 
 main :: IO ()
 main = do
-    putStrLn "Choose computation:"
-    putStrLn "1 impro suggester"
-    putStrLn "2 fretboard quizzer"
-    choice <- getLine
-    case choice of
-        "1" -> ImproSuggester.improSuggester
-        "2" -> FretboardQuizzer.fretboardQuizzer
-        _ -> putStr "No computation chosen; exiting"
+    putStrLn "Welcome to notespace."
+    let loop = do {
+        putStrLn "Choose computation:"
+        ; putStrLn "0 exit"
+        ; putStrLn "1 impro suggester"
+        ; putStrLn "2 fretboard quizzer"
+        ; choice <- getLine
+        ; case choice of
+              "0" -> putStrLn "Exiting."
+              "1" -> do {ImproSuggester.improSuggester ; loop}
+              "2" -> do {FretboardQuizzer.fretboardQuizzer ; loop}
+              _ -> do {putStr "No valid computation chosen." ; loop}}
+    loop
