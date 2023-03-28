@@ -23,12 +23,12 @@ improSuggester = do
     literate <- getLine
     putStrLn "IMPRO SUGGESTER: Here are scales to use:"
     if literate == "y"
-      then print (scaleLSuggester notes root)
-      else print (scaleSuggester notes root)
+      then mapM_ print (scaleLSuggester notes root)
+      else mapM_ print (scaleSuggester notes root)
     putStrLn "IMPRO SUGGESTER: Here are triads to use:"
     if literate == "y"
-      then print (triadLSuggester notes root)
-      else print (triadSuggester notes root)
+      then mapM_ print (triadLSuggester notes root)
+      else mapM_ print (triadSuggester notes root)
 
 {---------------------------------------}
 {- 1.1 -- APPLICATION: IMPRO SUGGESTER -}
