@@ -9,10 +9,9 @@ import ImproSuggester
 
 main :: IO ()
 main = do
-    putStrLn "Welcome to notespace."
+    putStrLn "Welcome to notespace, the music calculator."
     let loop = do {
-        putStrLn "Choose computation:"
-        ; putStrLn "0 exit"
+        putStrLn "Choose calculation (or 0 to exit):"
         ; putStrLn "1 impro suggester"
         ; putStrLn "2 fretboard quizzer"
         ; choice <- getLine
