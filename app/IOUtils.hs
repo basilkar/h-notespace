@@ -23,25 +23,47 @@ stripNothing ((Just x):xs) = x: stripNothing xs
 charsToNote :: String -> Maybe Note
 charsToNote chars = case chars of
     "A" -> Just A
+    "a" -> Just A
     "As" -> Just As
+    "as" -> Just As
     "A#" -> Just As
+    "a#" -> Just As
     "Bb" -> Just As
+    "bb" -> Just As
     "B" -> Just B
+    "b" -> Just B
     "C" -> Just C
+    "c" -> Just C
     "Cs" -> Just Cs
+    "cs" -> Just Cs
     "C#" -> Just Cs
+    "c#" -> Just Cs
     "Db" -> Just Cs
+    "db" -> Just Cs
     "D" -> Just D
+    "d" -> Just D
     "Ds" -> Just Ds
+    "ds" -> Just Ds
     "D#" -> Just Ds
+    "d#" -> Just Ds
     "Eb" -> Just Ds
+    "eb" -> Just Ds
     "E" -> Just E
+    "e" -> Just E
     "F" -> Just F
+    "f" -> Just F
     "Fs" -> Just Fs
+    "fs" -> Just Fs
     "F#" -> Just Fs
+    "f#" -> Just Fs
     "Gb" -> Just Fs
+    "gb" -> Just Fs
     "G" -> Just G
+    "g" -> Just G
     "Gs" -> Just Gs
+    "gs" -> Just Gs
     "G#" -> Just Gs
+    "g#" -> Just Gs
     "Ab" -> Just Gs
+    "ab" -> Just Gs
     _ -> Nothing

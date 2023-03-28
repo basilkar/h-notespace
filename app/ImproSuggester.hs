@@ -11,12 +11,12 @@ import IOUtils
 
 improSuggester :: IO ()
 improSuggester = do
-    putStrLn "IMPRO SUGGESTER: What notes do you want to improvize over? (e.g., A, B, Cs,...)"
+    putStrLn "IMPRO SUGGESTER: What notes do you want to improvize over?"
     let inputs = []
     notes <- charInputsToNotes inputs
     putStrLn "IMPRO SUGGESTER: You chose the notes:"
     print notes
-    putStrLn "IMPRO SUGGESTER: What would be the root? (e.g., E)"
+    putStrLn "IMPRO SUGGESTER: What would be the root?"
     charsRoot <- getLine
     root <- charInputToNote charsRoot
     putStrLn "IMPRO SUGGESTER: Do you want to see the suggestions by name? (y/n)"

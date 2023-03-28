@@ -3,6 +3,8 @@ module FretboardQuizzer where
 import Control.Monad -- for the loop-while in the main quiz
 import System.Random
 
+import IOUtils
+
 import Note
 import Guitar
 
@@ -41,9 +43,9 @@ fretboardQuizOneStandard = do
   let string = head (randoms g2 :: [Guitarstring])
   let answer = fretboard tuningStandard string fret
   putStrLn ("FRETBOARD QUIZZER: What is the note on fret " ++ show (fromEnum fret) ++ " of string " ++ show (fromEnum string + 1) ++ " in standard tuning?")
-  putStrLn " nomenclature: A, As, B, C, Cs, D, ..."
-  guess <- getLine
-  if guess == show answer then putStr "FRETBOARD QUIZZER: Correct!" else putStr ("FRETBOARD QUIZZER: Wrong! The note is actually " ++ show answer ++ ".")
+  charsGuess <- getLine
+  guess <- charInputToNote charsGuess
+  if guess == answer then putStr "FRETBOARD QUIZZER: Correct!" else putStr ("FRETBOARD QUIZZER: Wrong! The note is actually " ++ show answer ++ ".")
 
 fretboardQuizTwoStandard :: IO ()
 fretboardQuizTwoStandard = do
