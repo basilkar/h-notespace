@@ -10,10 +10,10 @@ import ImproSuggester
 main :: IO ()
 main = do
     putStrLn "Choose computation:"
-    putStrLn "1 fretboard quizzer"
-    putStrLn "2 impro suggester"
+    putStrLn "1 impro suggester"
+    putStrLn "2 fretboard quizzer"
     choice <- getLine
     case choice of
-        "1" -> FretboardQuizzer.fretboardQuizzer
-        "2" -> ImproSuggester.improSuggester
+        "1" -> ImproSuggester.improSuggester
+        "2" -> FretboardQuizzer.fretboardQuizzer
         _ -> putStr "No computation chosen; exiting"
