@@ -36,7 +36,7 @@ charInputsToNotes xs = do
     input <- getLine
     if input == ""
         then return (stripNothing (map charsToNote xs))
-        else charInputsToNotes (input : xs)
+        else charInputsToNotes (xs ++ [input])
 
 charInputToNote :: String -> IO (Note)
 charInputToNote input = return (fromJust (charsToNote input))
