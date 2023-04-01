@@ -127,7 +127,7 @@ In adapting the Levenshtein distance we could think about giving weighs to parti
 -- Now that we have a recognizer, we can also have a version of suggester (see application 1.1) where we get the names of the suggested scales or chords, rather than the note lists themselves.
 
 scaleLSuggester :: [Note] -> Note -> [String]
-scaleLSuggester ns r = filter (/= "unknown pattern") $ sort $ nub $ map (`icsRecognizer` r) $ scaleSuggester (sort $ nub ns) r
+scaleLSuggester ns r = filter (/= "unknown pattern") $ nub $ map (`icsRecognizer` r) $ scaleSuggester (sort $ nub ns) r
 
 triadLSuggester :: [Note] -> Note -> [String]
-triadLSuggester ns r = filter (/= "unknown pattern") $ sort $ nub $ map (`icsRecognizer` r) $ triadSuggester (sort $ nub ns) r
+triadLSuggester ns r = filter (/= "unknown pattern") $ nub $ map (`icsRecognizer` r) $ triadSuggester (sort $ nub ns) r
