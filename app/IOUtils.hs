@@ -12,7 +12,7 @@ charInputsToNotes xs = do
         then return (stripNothing (map charsToNote xs))
         else charInputsToNotes (xs ++ [input])
 
-charInputToNote :: String -> IO (Note)
+charInputToNote :: String -> IO Note
 charInputToNote input = return (fromJust (charsToNote input))
 
 stripNothing :: [Maybe a] -> [a]
