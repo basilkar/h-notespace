@@ -1,7 +1,3 @@
-{--------------------------------------}
-{- 1 -- AN ENUMERATION TYPE FOR NOTES -}
-{--------------------------------------}
-
 module Note where
 
 import Utils

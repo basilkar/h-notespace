@@ -1,7 +1,3 @@
-{--------------------------------------------------}
-{- 2 -- AN INDUCTIVE TYPE FOR CHORD CONSTRUCTIONS -}
-{--------------------------------------------------}
-
 module Chord where
 
 import Note

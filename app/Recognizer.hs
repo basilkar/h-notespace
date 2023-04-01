@@ -57,13 +57,6 @@ knownScaleChordFinder = do
             ; mapM_ print chordNames
             }
         else putStrLn "RECOGNIZER: No known chords were found in the notes you've provided."
-    
-
-
-
-{------------------------------------}
-{- 1.2 -- APPLICATION: SCALE CHORDS -}
-{------------------------------------}
 
 {-
 
@@ -82,75 +75,6 @@ scaleChords sc sig = [ notesBySignature (head sc) c | c <- memoArray, all (`elem
         scsig = signatureByNotes sc
         memoArray = map (\ m -> map (\ n -> (n + m) `mod` 12) sig) scsig
 
-{- EXAMPLES -}
-
-{-
-c_major_scale = scaleM C -- alternatively, c_major_scale = notesBySignature C sigScaleM
-
-
-The following find all major, minor, augmented, and diminished triads to be found in the key of C major.
-
-> scaleChords c_major_scale sigTriadM
-[[C,E,G],[F,A,C],[G,B,D]]
-
-> scaleChords c_major_scale sigTriadm
-[[D,F,A],[E,G,B],[A,C,E]]
-
-> scaleChords c_major_scale sigTriada
-[]
-
-> scaleChords c_major_scale sigTriadd
-[[B,D,F]]
-
-We can find all (traditional) triads to be found in the key of C major
-
-> map (\ sigs -> scaleChords c_major_scale sigs) [sigTriadM, sigTriadm, sigTriada, sigTriadd]
-[[[C,E,G],[F,A,C],[G,B,D]],[[D,F,A],[E,G,B],[A,C,E]],[],[[B,D,F]]]
-
-or in the scale of E minor pentatonic
-
-> map (\ sigs -> scaleChords (notesBySignature E sigScalepm) sigs) [sigTriadM, sigTriadm, sigTriada, sigTriadd]
-[[[G,B,D]],[[E,G,B]],[],[]]
-
-and in the same fashion we can find all (traditional) seventh chords in these keys
-
-> map (\ sigs -> scaleChords c_major_scale sigs) [sig7ChordMM, sig7ChordMm, sig7Chordmm, sig7ChordmM, sig7Chorddm, sig7Chordam]
-
-The same example for, say, the E harmonic major:
-
-
-e_harmonic_major = scaleMh E
-
-
-> map (\ sigs -> scaleChords e_harmonic_major sigs) [sig7ChordMM, sig7ChordMm, sig7Chordmm, sig7ChordmM, sig7Chorddm, sig7Chordam]
-[[[E,Gs,B,Ds]],[[Gs,C,Ds,Fs],[B,Ds,Fs,A]],[[A,C,E,Gs]],[[Gs,B,Ds,Fs]],[[Fs,A,C,E]],[[Gs,C,E,Fs]]]
-
-Similarly, we can use the function scaleChords to find all perfect fourth intervals, say, of A minor pentatonic.mode 6 scalemm G
-
-> map (\ sigs -> scaleChords (notesBySignature E sigScalepm) sigs) [ sigInterval4p ]
-[[[E,A],[A,D],[B,E],[D,G]]]
-
-and, to contrast, all perfect fourth intervals of C major:
-
-> map (\ sigs -> scaleChords c_major_scale sigs) [ sigInterval4p ]
-[[[C,F],[D,G],[E,A],[G,C],[A,D],[B,E]]]
-
-Finally, all tritones in A melodic minor.
-
-> map (\ sigs -> scaleChords (notesBySignature A sigScalemm) sigs) [ sigInterval4a ]
-[[[C,Fs],[D,Gs],[Fs,C],[Gs,D]]]
-
-Also, we can find existing instances of a scale or mode within a given scale. For example, this is how we find which notes of E major key constitute its locrian mode (the seventh mode of a major scale).
-
-> scaleChords (scaleM E) (signatureByNotes [B, C, D, E, F, G, A])
-
--}
-
-
-{-------------------------------------------------------}
-{- 1.3 -- APPLICATION: INTERVAL-CHORD-SCALE RECOGNIZER -}
-{-------------------------------------------------------}
-
 {-
 
 Recognize a rooted sequence of notes (meaning, a sequence of notes together with a note that is to be perceived as the root of the musical pattern) as an interval, chord, or scale.
@@ -159,7 +83,6 @@ INPUT a list of notes and a note
 OUTPUT a list of lists of notes from the given scale that fit the given signature
 
 -}
--- TODO: check the signatures again thoroughly
 icsRecognizer :: [Note] -> Note -> String
 icsRecognizer ns n
     | null ns = "not a pattern"
@@ -238,47 +161,6 @@ icsRecognizer ns n
     where
         sig = sort $ signatureByNotes $ nub $ n : ns
 
-{- EXAMPLES -}
-
-{-
-
-> icsRecognizer [A, B, C, D, E, F, G] A
-"SCALE: A natural minor, aka aeolian; the sixth mode of C major"
-
-> icsRecognizer [D, Cs, B, As, Gs, Fs] E
-"SCALE: E acoustic, aka overtone, aka lydian b7, aka lydian dominant, aka mixolydian #4, aka lydomyxian; the fourth mode of B melodic minor"
-
-Still, for Part B of "This song will die", we are (indeed) in uncharted territory:
-
-> icsRecognizer [E, F, Gs, As, B, C, D] E
-"unknown pattern"
-
-> icsRecognizer [E, F, Gs, As, B, C, Ds] E
-"unknown pattern"
-
-> icsRecognizer [E, F, Gs, As, B, Cs, D] E
-"unknown pattern"
-
-> icsRecognizer [E, F, Gs, As, B, Cs, Ds] E
-"unknown pattern"
-
-Fishing out chords for Pan Construction "Death Angel":
-
-> icsRecognizer [E, F, G, Gs, B, C, D] E
-"SCALE: E phrygian b4, aka altered 5; the third mode of Cs harmonic major"
-
-> signatureByNotes [E, F, G, Gs, B, C, D]
-[0,1,3,4,7,8,10]
-
-> scaleChordRecognizer E [0,1,3,4,7,8,10]
-["TRIAD: E major","TRIAD: G major","TRIAD: C major","TRIAD: E minor","TRIAD: F minor","TRIAD: E augmented","TRIAD: Gs augmented","TRIAD: C augmented","TRIAD: F diminished","TRIAD: Gs diminished","TRIAD: B diminished","TRIAD: D diminished","TETRAD: C major seventh","TETRAD: E seventh","TETRAD: G seventh","TETRAD: F minor major seventh","TETRAD: E minor seventh","TETRAD: D half-diminished, aka minor seventh b5","TETRAD: E augmented seventh"]
-
--}
-
-{-----------------------------------------------------}
-{- 1.4 -- APPLICATION: THE SEVENTH CHORDS OF A SCALE -}
-{-----------------------------------------------------}
-
 {-
 
 INPUT a note (for the root) and a signature (for the type of scale)
@@ -290,27 +172,6 @@ To do this, we combine applications 1.2 and 1.3.
 
 scaleChordRecognizer :: Note -> [Int] -> [String]
 scaleChordRecognizer r scalesig = map (\ chord -> icsRecognizer chord (head chord)) $ concatMap (scaleChords (notesBySignature r scalesig)) [sigTriadM, sigTriadm, sigTriada, sigTriadd, sig7ChordMM, sig7ChordMm, sig7Chordmm, sig7ChordmM, sig7Chorddm, sig7Chordam]
-
-{- EXAMPLES -}
-
-{-
-
-The chords of E minor pentatonic scale
-
-> scaleChordRecognizer E sigScalepm
-["TRIAD: G major","TRIAD: E minor","TETRAD: E minor seventh"]
-
-of E major scale
-
-> scaleChordRecognizer E sigScaleM
-["TRIAD: E major","TRIAD: A major","TRIAD: B major","TRIAD: Fs minor","TRIAD: Gs minor","TRIAD: Cs minor","TRIAD: Ds diminished","TETRAD: E major seventh","TETRAD: A major seventh","TETRAD: B seventh","TETRAD: Fs minor seventh","TETRAD: Gs minor seventh","TETRAD: Cs minor seventh","TETRAD: Ds half-diminished, aka minor seventh b5"]
-
-and of A double harmonic scale
-
-> scaleChordRecognizer A sigScaledh
-["TRIAD: A major","TRIAD: As major","TRIAD: Cs major","TRIAD: As minor","TRIAD: Cs minor","TRIAD: D minor","TRIAD: A augmented","TRIAD: Cs augmented","TRIAD: F augmented","TRIAD: As diminished","TRIAD: D diminished","TETRAD: A major seventh","TETRAD: As major seventh","TETRAD: As seventh","TETRAD: As minor major seventh","TETRAD: D minor major seventh","TETRAD: As minor seventh","TETRAD: As half-diminished, aka minor seventh b5"]
-
--}
 
 scaleChordRecognizerFromNotes :: [Note] -> [String]
 scaleChordRecognizerFromNotes notes = map (\ chord -> icsRecognizer chord (head chord)) $ concatMap (scaleChords notes) [sigTriadM, sigTriadm, sigTriada, sigTriadd, sig7ChordMM, sig7ChordMm, sig7Chordmm, sig7ChordmM, sig7Chorddm, sig7Chordam]

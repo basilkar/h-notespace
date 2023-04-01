@@ -1,7 +1,3 @@
-{---------------------}
-{- 3 -- ABOUT RHYTHM -}
-{---------------------}
-
 module Rhythm where
 
 import Math.Combinat
@@ -25,33 +21,3 @@ rhythmPatterns tsig b = [map (\ x -> x `elem` (numPatterns !! i)) allBeats | i <
 rhythmPatternsWith :: (Int, Int) -> Int -> Int -> [[Bool]]
 rhythmPatternsWith tsig b m = filter ([False | i <- [1..(b * fst tsig - m)]] `isSubsequenceOf`) $ filter ([True | i <- [1..m]] `isSubsequenceOf` ) rpats
     where rpats = rhythmPatterns tsig b
-
-{- EXAMPLES -}
-
-{-
-
-Say we want to practice on accentuating 2 out of 4 beats, i.e., out of one bar of a typical 4/4 song.
-
-> rhythmPatternsWith (4,4) 1 2
-[[True,True,False,False],[True,False,True,False],[True,False,False,True],[False,True,True,False],[False,True,False,True],[False,False,True,True]]
-
-Here are all ways to accentuate three out of eight eighths.
-
-> rhythmPatternsWith (8,8) 1 3
-[[True,True,True,False,False,False,False,False],[True,True,False,True,False,False,False,False],[True,True,False,False,True,False,False,False],[True,True,False,False,False,True,False,False],[True,True,False,False,False,False,Tr
-ue,False],[True,True,False,False,False,False,False,True],[True,False,True,True,False,False,False,False],[True,False,True,False,True,False,False,False],[True,False,True,False,False,True,False,False],[True,False,True,False,False
-,False,True,False],[True,False,True,False,False,False,False,True],[True,False,False,True,True,False,False,False],[True,False,False,True,False,True,False,False],[True,False,False,True,False,False,True,False],[True,False,False,T
-rue,False,False,False,True],[True,False,False,False,True,True,False,False],[True,False,False,False,True,False,True,False],[True,False,False,False,True,False,False,True],[True,False,False,False,False,True,True,False],[True,Fals
-e,False,False,False,True,False,True],[True,False,False,False,False,False,True,True],[False,True,True,True,False,False,False,False],[False,True,True,False,True,False,False,False],[False,True,True,False,False,True,False,False],[
-False,True,True,False,False,False,True,False],[False,True,True,False,False,False,False,True],[False,True,False,True,True,False,False,False],[False,True,False,True,False,True,False,False],[False,True,False,True,False,False,True
-,False],[False,True,False,True,False,False,False,True],[False,True,False,False,True,True,False,False],[False,True,False,False,True,False,True,False],[False,True,False,False,True,False,False,True],[False,True,False,False,False,
-True,True,False],[False,True,False,False,False,True,False,True],[False,True,False,False,False,False,True,True],[False,False,True,True,True,False,False,False],[False,False,True,True,False,True,False,False],[False,False,True,Tru
-e,False,False,True,False],[False,False,True,True,False,False,False,True],[False,False,True,False,True,True,False,False],[False,False,True,False,True,False,True,False],[False,False,True,False,True,False,False,True],[False,False
-,True,False,False,True,True,False],[False,False,True,False,False,True,False,True],[False,False,True,False,False,False,True,True],[False,False,False,True,True,True,False,False],[False,False,False,True,True,False,True,False],[Fa
-lse,False,False,True,True,False,False,True],[False,False,False,True,False,True,True,False],[False,False,False,True,False,True,False,True],[False,False,False,True,False,False,True,True],[False,False,False,False,True,True,True,F
-alse],[False,False,False,False,True,True,False,True],[False,False,False,False,True,False,True,True],[False,False,False,False,False,True,True,True]]
-*Main>
-
-Lacking a gui, it would be nice to have a pretty-print of this function too---although the complexity is, of course, what it is---ma non adesso.
-
--}
