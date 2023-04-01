@@ -3,7 +3,7 @@
 Sample features:
 
 1. input a set of notes, output fitting scales {haskell-prototyping.hs: improScale}  
-2. input a scale, output its chords {haskell-prototyping.hs: scalechords}  
+2. input a scale, output its chords {haskell-prototyping.hs: scaleChords}  
 3. recognize known chords and scales {haskell-prototyping.hs: ictRecognizer}  
 4. print all seventh chords within a given scale  
 5. input a melody, output a harmonization  
