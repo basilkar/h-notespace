@@ -15,13 +15,15 @@ main = do
     let loop = do {
         putStrLn "Choose application (or 0 to exit):"
         ; putStrLn "1 impro suggester"
-        ; putStrLn "2 recognizer"
-        ; putStrLn "3 fretboard quizzer"
+        ; putStrLn "2 namer"
+        ; putStrLn "3 scale chord finder"
+        ; putStrLn "4 fretboard quizzer"
         ; choice <- getLine
         ; case choice of
               "0" -> putStrLn "Exiting."
               "1" -> do {ImproSuggester.improSuggester ; loop}
-              "2" -> do {Recognizer.recognizer; loop}
-              "3" -> do {FretboardQuizzer.fretboardQuizzer ; loop}
+              "2" -> do {Recognizer.namer; loop}
+              "3" -> do {Recognizer.scaleChordFinder; loop}
+              "4" -> do {FretboardQuizzer.fretboardQuizzer ; loop}
               _ -> do {putStr "No valid application chosen." ; loop}}
     loop
