@@ -8,24 +8,28 @@ import Data.Foldable
 import System.Process
 import Text.Printf
 import Data.List
+import Note
 
-type Pulse = Float
+import SoundNote
+
+-- type Pulse = Float
 type Seconds = Float
-type SamplesPerSecond = Float
-type Hz = Float
+-- type SamplesPerSecond = Float
+-- type Hz = Float
 type Volume = Float
 type Semitones = Float
 type BeatsPerMinute = Float
 
-sineWave ::  Hz -> Volume -> Float -> Seconds -> SamplesPerSecond
-sineWave freq amp phase time = amp * sin (2 * pi * freq * (time / sampleRate) + phase)
+-- sineWave ::  Hz -> Volume -> Float -> Seconds -> SamplesPerSecond
+-- sineWave freq amp phase time = amp * sin (2 * pi * freq * (time / sampleRate) + phase)
 
-cosineWave ::  Hz -> Volume -> Float -> Seconds -> SamplesPerSecond
-cosineWave freq amp phase time = amp * cos (2 * pi * freq * (time / sampleRate) + phase)
+-- melodyA :: [Pulse]
+-- melodyA =
+--     map (sineWave pitchStandard 0.1 0) [0 .. sampleRate]
+--     ++ map (sineWave pitchStandard 0.1 0) [0 .. sampleRate]
 
-melodyA :: [Pulse]
-melodyA =
-    map (sineWave pitchStandard 0.1 0) [0 .. sampleRate] ++ map (cosineWave pitchStandard 0.1 0) [0 .. sampleRate]
+melodyB :: [Pulse]
+melodyB = SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.SoundNote {note = A, freq = 440.0, amp = 0.5, phase = 0, duration = 1, adsr = (0.3, 0.5, 0.7)}) (0.3, 0.5, 0.7)
 
 soundFilePath :: FilePath
 soundFilePath = "soundfile.bin"
@@ -118,7 +122,7 @@ pitchStandard = 440.0
 --                 ]
 
 save :: FilePath -> IO ()
-save filePath = B.writeFile filePath $ B.toLazyByteString $ foldMap B.floatLE melodyA
+save filePath = B.writeFile filePath $ B.toLazyByteString $ foldMap B.floatLE melodyB
 
 play :: IO ()
 play = do
@@ -126,5 +130,5 @@ play = do
   _ <- runCommand $ printf "ffplay -autoexit -showmode 1 -f f32le -ar %f %s" sampleRate soundFilePath
   return ()
 
-main :: IO ()
-main = save soundFilePath
+-- main :: IO ()
+-- main = save soundFilePath
