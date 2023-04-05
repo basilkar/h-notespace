@@ -19,7 +19,6 @@ data SoundNote = SoundNote
     , amp :: Volume
     , phase :: Phase
     , duration :: Seconds
-    , adsr :: (Float, Float, Float)
     }
     deriving (Eq, Show, Read)
 
@@ -27,7 +26,7 @@ defaultSampleRate :: SamplesPerSecond
 defaultSampleRate = 44000.0
 
 sineWave :: SamplesPerSecond -> Hz -> Volume -> Phase -> Seconds -> SamplesPerSecond
-sineWave sampleRate freq amp phase time = amp * sin (2 * pi * freq * (time / sampleRate) + phase)
+sineWave sampleRate freq amp phase time = amp * sin (2 * pi * freq * time / sampleRate + phase)
 
 singleNoteSignal :: SamplesPerSecond -> SoundNote -> Signal
 singleNoteSignal sampleRate soundNote = map (sineWave sampleRate (freq soundNote) (amp soundNote) (phase soundNote)) [0 .. (sampleRate - 1) * duration soundNote]
@@ -64,5 +63,5 @@ adsrSegments signal adsr = splitPlaces [attackLength, decayLength, sustainLength
 {-
 Examples:
 
-envelope (singleNoteSignal defaultSampleRate SoundNote {note = A, freq = 440.0, amp = 0.5, phase = 0, duration = 1, adsr = (0.3, 0.5, 0.7)}) (0.3, 0.5, 0.7)
+envelope (singleNoteSignal defaultSampleRate SoundNote {note = A, freq = 440.0, amp = 0.5, phase = 0, duration = 1}) (0.3, 0.5, 0.7)
 -}
