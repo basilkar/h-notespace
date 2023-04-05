@@ -5,6 +5,7 @@ module Sound where
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Builder as B
 import Data.Foldable
+--import System.Directory
 import System.Process
 import Text.Printf
 import Data.List
@@ -20,28 +21,26 @@ type Volume = Float
 type Semitones = Float
 type BeatsPerMinute = Float
 
--- sineWave ::  Hz -> Volume -> Float -> Seconds -> SamplesPerSecond
--- sineWave freq amp phase time = amp * sin (2 * pi * freq * (time / sampleRate) + phase)
-
 -- melodyA :: [Pulse]
 -- melodyA =
 --     map (sineWave pitchStandard 0.1 0) [0 .. sampleRate]
 --     ++ map (sineWave pitchStandard 0.1 0) [0 .. sampleRate]
 
 melodyB :: [Pulse]
-melodyB = SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.SoundNote {note = A, freq = 440.0, amp = 0.1, phase = 0, duration = 2}) (0.05, 0.2, 0.8)
+melodyB = SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.SoundNote {note = A, freq = 440.0, amp = 0.1, phase = 0, duration = 2}) (0.05, 0.1, 0.8)
+--melodyB = SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.SoundNote {note = A, freq = 440.0, amp = 0.1, phase = 0, duration = 2}
 
 soundFilePath :: FilePath
 soundFilePath = "soundfile.bin"
 
-volume :: Float
-volume = 0.2
+--volume :: Float
+--volume = 0.2
 
-sampleRate :: SamplesPerSecond
-sampleRate = 48000.0
+--sampleRate :: SamplesPerSecond
+--sampleRate = 48000.0
 
-pitchStandard :: Hz
-pitchStandard = 440.0
+--pitchStandard :: Hz
+--pitchStandard = 440.0
 
 -- bpm :: BeatsPerMinute
 -- bpm = 120.0
@@ -127,8 +126,6 @@ save filePath = B.writeFile filePath $ B.toLazyByteString $ foldMap B.floatLE me
 play :: IO ()
 play = do
   save soundFilePath
-  _ <- runCommand $ printf "ffplay -autoexit -showmode 1 -f f32le -ar %f %s" sampleRate soundFilePath
+  _ <- runCommand $ printf "ffplay -autoexit -showmode 1 -f f32le -ar %f %s" SoundNote.defaultSampleRate soundFilePath
+--  removeFile soundFilePath
   return ()
-
--- main :: IO ()
--- main = save soundFilePath
