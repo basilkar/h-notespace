@@ -11,11 +11,11 @@ type Pulse = Float
 type SamplesPerSecond = Float
 type Seconds = Float
 type Signal = [Pulse]
+type Temperament = Note -> Hz
 type Volume = Float
 
 data SoundNote = SoundNote
     { note :: Note
-    , freq :: Hz
     , amp :: Volume
     , phase :: Phase
     , duration :: Seconds
@@ -28,13 +28,13 @@ defaultSampleRate = 44000.0
 sineWave :: SamplesPerSecond -> Hz -> Volume -> Phase -> Seconds -> SamplesPerSecond
 sineWave sampleRate freq amp phase time = amp * sin (2 * pi * freq * time / sampleRate + phase)
 
-singleNoteSignal :: SamplesPerSecond -> SoundNote -> Signal
-singleNoteSignal sampleRate soundNote = map (sineWave sampleRate (freq soundNote) (amp soundNote) (phase soundNote)) [0 .. (sampleRate - 1) * duration soundNote]
+singleNoteSignal :: SamplesPerSecond -> Temperament -> SoundNote -> Signal
+singleNoteSignal sampleRate temperament soundNote = map (sineWave sampleRate (temperament (note soundNote)) (amp soundNote) (phase soundNote)) [0 .. (sampleRate - 1) * duration soundNote]
 
-melodySignal :: SamplesPerSecond -> [SoundNote] -> Signal
-melodySignal sampleRate [] = []
-melodySignal sampleRate [soundNote] = singleNoteSignal sampleRate soundNote
-melodySignal sampleRate (soundNote:soundNotes) = singleNoteSignal sampleRate soundNote ++ melodySignal sampleRate soundNotes
+melodySignal :: SamplesPerSecond -> Temperament -> [SoundNote] -> Signal
+melodySignal sampleRate temperament [] = []
+melodySignal sampleRate temperament [soundNote] = singleNoteSignal sampleRate temperament soundNote
+melodySignal sampleRate temperament (soundNote:soundNotes) = singleNoteSignal sampleRate temperament soundNote ++ melodySignal sampleRate temperament soundNotes
 
 envelope :: Signal -> (Float, Float, Float) -> Signal
 envelope signal adsr =
@@ -68,3 +68,10 @@ Examples:
 
 envelope (singleNoteSignal defaultSampleRate SoundNote {note = A, freq = 440.0, amp = 0.5, phase = 0, duration = 1}) (0.3, 0.5, 0.7)
 -}
+
+equalTemperament :: Temperament
+equalTemperament A = 440
+equalTemperament note = equalTemperament A * (2 ** (1.0 / 12.0)) ** m
+    where m = fromIntegral $ halfstepsDirectedDistance A note
+
+-- pitchStandard * (2 ** (1.0 / 12.0)) ** n
