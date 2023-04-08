@@ -2,16 +2,13 @@
 
 module Sound where
 
-import qualified Data.ByteString.Lazy as B
-import qualified Data.ByteString.Builder as B
-import Control.Concurrent
-import Data.Foldable
-import System.Directory
-import System.Process
-import Text.Printf
-import Data.List
-import Note
+import qualified Data.ByteString.Lazy as B (writeFile)
+import qualified Data.ByteString.Builder as B (floatLE, toLazyByteString)
+import System.Directory (removeFile)
+import System.Process (runCommand, waitForProcess)
+import Text.Printf (printf)
 
+import Note
 import SoundNote
 
 defaultADSR = (0.05, 0.1, 0.8)
