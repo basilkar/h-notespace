@@ -20,13 +20,13 @@ type Semitones = Float
 type BeatsPerMinute = Float
 
 melodyB :: Signal
-melodyB = SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.SoundNote {note = A, amp = 0.1, phase = 0, duration = 0.5}) (0.05, 0.1, 0.8) 
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.SoundNote {note = B, amp = 0.1, phase = 0, duration = 0.5}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.SoundNote {note = C, amp = 0.1, phase = 0, duration = 0.5}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.SoundNote {note = D, amp = 0.1, phase = 0, duration = 0.5}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.SoundNote {note = E, amp = 0.1, phase = 0, duration = 0.5}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.SoundNote {note = F, amp = 0.1, phase = 0, duration = 0.5}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.SoundNote {note = G, amp = 0.1, phase = 0, duration = 0.5}) (0.05, 0.1, 0.8)
+melodyB = SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = A, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8) 
+  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = B, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
+  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = C, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
+  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = D, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
+  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = E, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
+  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = F, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
+  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = G, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
 
 soundFilePath :: FilePath
 soundFilePath = "soundfile.bin"

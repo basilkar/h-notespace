@@ -5,6 +5,8 @@ import Data.List.Split
 
 import Note
 
+type Beats = Float
+type BPM = Float
 type Hz = Float
 type Phase = Float
 type Pulse = Float
@@ -18,23 +20,26 @@ data SoundNote = SoundNote
     { note :: Note
     , amp :: Volume
     , phase :: Phase
-    , duration :: Seconds
+    , duration :: Beats
     }
     deriving (Eq, Show, Read)
 
 defaultSampleRate :: SamplesPerSecond
 defaultSampleRate = 44000.0
 
+defaultBPM :: BPM
+defaultBPM = 120
+
 sineWave :: SamplesPerSecond -> Hz -> Volume -> Phase -> Seconds -> SamplesPerSecond
 sineWave sampleRate freq amp phase time = amp * sin (2 * pi * freq * time / sampleRate + phase)
 
-singleNoteSignal :: SamplesPerSecond -> Temperament -> SoundNote -> Signal
-singleNoteSignal sampleRate temperament soundNote = map (sineWave sampleRate (temperament (note soundNote)) (amp soundNote) (phase soundNote)) [0 .. (sampleRate - 1) * duration soundNote]
+singleNoteSignal :: SamplesPerSecond -> Temperament -> BPM -> SoundNote -> Signal
+singleNoteSignal sampleRate temperament bpm soundNote = map (sineWave sampleRate (temperament (note soundNote)) (amp soundNote) (phase soundNote)) [0 .. (sampleRate - 1) * (duration soundNote * 60) / bpm]
 
-melodySignal :: SamplesPerSecond -> Temperament -> [SoundNote] -> Signal
-melodySignal sampleRate temperament [] = []
-melodySignal sampleRate temperament [soundNote] = singleNoteSignal sampleRate temperament soundNote
-melodySignal sampleRate temperament (soundNote:soundNotes) = singleNoteSignal sampleRate temperament soundNote ++ melodySignal sampleRate temperament soundNotes
+melodySignal :: SamplesPerSecond -> Temperament -> BPM -> [SoundNote] -> Signal
+melodySignal sampleRate temperament bpm [] = []
+melodySignal sampleRate temperament bpm [soundNote] = singleNoteSignal sampleRate temperament bpm soundNote
+melodySignal sampleRate temperament bpm (soundNote:soundNotes) = singleNoteSignal sampleRate temperament bpm soundNote ++ melodySignal sampleRate temperament bpm soundNotes
 
 envelope :: Signal -> (Float, Float, Float) -> Signal
 envelope signal adsr =
@@ -66,12 +71,10 @@ adsrSegments signal adsr = splitPlaces [attackLength, decayLength, sustainLength
 {-
 Examples:
 
-envelope (singleNoteSignal defaultSampleRate SoundNote {note = A, freq = 440.0, amp = 0.5, phase = 0, duration = 1}) (0.3, 0.5, 0.7)
+envelope (singleNoteSignal defaultSampleRate defaultBPM SoundNote {note = A, freq = 440.0, amp = 0.5, phase = 0, duration = 1}) (0.3, 0.5, 0.7)
 -}
 
 equalTemperament :: Temperament
 equalTemperament A = 440
 equalTemperament note = equalTemperament A * (2 ** (1.0 / 12.0)) ** m
     where m = fromIntegral $ halfstepsDirectedDistance A note
-
--- pitchStandard * (2 ** (1.0 / 12.0)) ** n
