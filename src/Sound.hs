@@ -53,6 +53,7 @@ saveSignalToFile signal filePath = B.writeFile filePath $ B.toLazyByteString $ f
 play :: IO ()
 play = do
   saveSignalToFile melody soundFilePath
-  _ <- runCommand $ printf "ffplay -autoexit -showmode 1 -f f32le -ar %f %s" defaultSampleRate soundFilePath
---  removeFile soundFilePath
+  ffplayProcessHandle <- runCommand $ printf "ffplay -autoexit -showmode 1 -f f32le -ar %f %s" defaultSampleRate soundFilePath
+  waitForProcess ffplayProcessHandle
+  removeFile soundFilePath
   return ()

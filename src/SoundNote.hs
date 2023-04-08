@@ -32,7 +32,7 @@ defaultSampleRate :: SamplesPerSecond
 defaultSampleRate = 44000.0
 
 defaultBPM :: BPM
-defaultBPM = 120
+defaultBPM = 240
 
 sineWave :: SamplesPerSecond -> Hz -> Volume -> Phase -> Seconds -> SamplesPerSecond
 sineWave sampleRate freq amp phase time = amp * sin (2 * pi * freq * time / sampleRate + phase)
