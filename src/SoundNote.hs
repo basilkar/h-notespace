@@ -10,16 +10,18 @@ type Beats = Float
 type BPM = Float
 type Envelope = Signal -> ADSR -> Signal
 type Hz = Float
+type Octave = Int
 type Phase = Float
 type Pulse = Float
 type SamplesPerSecond = Float
 type Seconds = Float
 type Signal = [Pulse]
-type Temperament = Note -> Hz
+type Temperament = Note -> Octave -> Hz
 type Volume = Float
 
 data SoundNote = SoundNote
     { note :: Note
+    , octave :: Octave
     , amp :: Volume
     , phase :: Phase
     , duration :: Beats
@@ -36,7 +38,7 @@ sineWave :: SamplesPerSecond -> Hz -> Volume -> Phase -> Seconds -> SamplesPerSe
 sineWave sampleRate freq amp phase time = amp * sin (2 * pi * freq * time / sampleRate + phase)
 
 singleNoteSignal :: SamplesPerSecond -> Temperament -> BPM -> SoundNote -> Signal
-singleNoteSignal sampleRate temperament bpm soundNote = map (sineWave sampleRate (temperament (note soundNote)) (amp soundNote) (phase soundNote)) [0 .. (sampleRate - 1) * (duration soundNote * 60) / bpm]
+singleNoteSignal sampleRate temperament bpm soundNote = map (sineWave sampleRate (temperament (note soundNote) (octave soundNote)) (amp soundNote) (phase soundNote)) [0 .. (sampleRate - 1) * (duration soundNote * 60) / bpm]
 
 melodySignal :: SamplesPerSecond -> Temperament -> BPM -> [SoundNote] -> Signal
 melodySignal sampleRate temperament bpm [] = []
@@ -76,7 +78,12 @@ Examples:
 defaultEnvelope (singleNoteSignal defaultSampleRate defaultBPM SoundNote {note = A, freq = 440.0, amp = 0.5, phase = 0, duration = 1}) (0.3, 0.5, 0.7)
 -}
 
+pitchStandard :: Hz
+pitchStandard = 440
+
 equalTemperament :: Temperament
-equalTemperament A = 440
-equalTemperament note = equalTemperament A * (2 ** (1.0 / 12.0)) ** m
-    where m = fromIntegral $ halfstepsDirectedDistance A note
+equalTemperament A 4 = pitchStandard
+equalTemperament note octave = (equalTemperament A 4 * (2 ** (1.0 / 12.0)) ** m) * 2 ^^ octaveDifference
+    where
+        m = fromIntegral $ halfstepsDirectedDistance A note
+        octaveDifference = octave - 4

@@ -27,13 +27,22 @@ melodyFromSoundNotes envelope adsr sampleRate temperament bpm (soundNote:soundNo
   melodyFromSoundNotes envelope adsr sampleRate temperament bpm [soundNote] ++ melodyFromSoundNotes envelope adsr sampleRate temperament bpm soundNotes
 
 soundNotes = [
-  SoundNote {note = A, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = B, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = C, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = D, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = E, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = F, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = G, amp = 0.1, phase = 0, duration = 1}]
+  SoundNote {note = A, octave = 3, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = B, octave = 3, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = C, octave = 3, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = D, octave = 3, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = E, octave = 3, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = F, octave = 3, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = G, octave = 3, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = A, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = B, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = C, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = D, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = E, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = F, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = G, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = A, octave = 5, amp = 0.1, phase = 0, duration = 1}
+  ]
 
 soundFilePath :: FilePath
 soundFilePath = "soundfile.bin"
