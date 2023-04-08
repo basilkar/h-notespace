@@ -14,19 +14,26 @@ import Note
 
 import SoundNote
 
-type Seconds = Float
-type Volume = Float
-type Semitones = Float
-type BeatsPerMinute = Float
+defaultADSR = (0.05, 0.1, 0.8)
 
-melodyB :: Signal
-melodyB = SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = A, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8) 
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = B, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = C, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = D, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = E, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = F, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
-  ++ SoundNote.envelope (SoundNote.singleNoteSignal SoundNote.defaultSampleRate SoundNote.equalTemperament SoundNote.defaultBPM SoundNote.SoundNote {note = G, amp = 0.1, phase = 0, duration = 1}) (0.05, 0.1, 0.8)
+melody :: Signal
+melody = melodyFromSoundNotes defaultEnvelope defaultADSR defaultSampleRate equalTemperament defaultBPM soundNotes
+
+melodyFromSoundNotes :: Envelope -> ADSR -> SamplesPerSecond -> Temperament -> BPM -> [SoundNote] -> Signal
+melodyFromSoundNotes envelope adsr sampleRate temperament bpm [] = []
+melodyFromSoundNotes envelope adsr sampleRate temperament bpm [soundNote] =
+  envelope (singleNoteSignal sampleRate temperament bpm soundNote) adsr
+melodyFromSoundNotes envelope adsr sampleRate temperament bpm (soundNote:soundNotes) =
+  melodyFromSoundNotes envelope adsr sampleRate temperament bpm [soundNote] ++ melodyFromSoundNotes envelope adsr sampleRate temperament bpm soundNotes
+
+soundNotes = [
+  SoundNote {note = A, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = B, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = C, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = D, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = E, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = F, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = G, amp = 0.1, phase = 0, duration = 1}]
 
 soundFilePath :: FilePath
 soundFilePath = "soundfile.bin"
@@ -36,7 +43,7 @@ saveSignalToFile signal filePath = B.writeFile filePath $ B.toLazyByteString $ f
 
 play :: IO ()
 play = do
-  saveSignalToFile melodyB soundFilePath
-  _ <- runCommand $ printf "ffplay -autoexit -showmode 1 -f f32le -ar %f %s" SoundNote.defaultSampleRate soundFilePath
+  saveSignalToFile melody soundFilePath
+  _ <- runCommand $ printf "ffplay -autoexit -showmode 1 -f f32le -ar %f %s" defaultSampleRate soundFilePath
 --  removeFile soundFilePath
   return ()
