@@ -78,12 +78,15 @@ Examples:
 defaultEnvelope (singleNoteSignal defaultSampleRate defaultBPM SoundNote {note = A, freq = 440.0, amp = 0.5, phase = 0, duration = 1}) (0.3, 0.5, 0.7)
 -}
 
-pitchStandard :: Hz
-pitchStandard = 440
+standardAPitch :: Hz
+standardAPitch = 440
+
+middleCPitch :: Hz
+middleCPitch = standardAPitch * (2 ** (1.0 / 12.0)) ** (-9)
 
 equalTemperament :: Temperament
-equalTemperament A 4 = pitchStandard
-equalTemperament note octave = (equalTemperament A 4 * (2 ** (1.0 / 12.0)) ** m) * 2 ^^ octaveDifference
+equalTemperament C 4 = middleCPitch
+equalTemperament note octave = (equalTemperament C 4 * (2 ** (1.0 / 12.0)) ** m) * 2 ^^ octaveDifference
     where
-        m = fromIntegral $ halfstepsDirectedDistance A note
+        m = fromIntegral $ halfstepsDirectedDistance C note
         octaveDifference = octave - 4

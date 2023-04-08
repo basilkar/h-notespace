@@ -29,18 +29,18 @@ melodyFromSoundNotes envelope adsr sampleRate temperament bpm (soundNote:soundNo
 soundNotes = [
   SoundNote {note = A, octave = 3, amp = 0.1, phase = 0, duration = 1},
   SoundNote {note = B, octave = 3, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = C, octave = 3, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = D, octave = 3, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = E, octave = 3, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = F, octave = 3, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = G, octave = 3, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = A, octave = 4, amp = 0.1, phase = 0, duration = 1},
-  SoundNote {note = B, octave = 4, amp = 0.1, phase = 0, duration = 1},
   SoundNote {note = C, octave = 4, amp = 0.1, phase = 0, duration = 1},
   SoundNote {note = D, octave = 4, amp = 0.1, phase = 0, duration = 1},
   SoundNote {note = E, octave = 4, amp = 0.1, phase = 0, duration = 1},
   SoundNote {note = F, octave = 4, amp = 0.1, phase = 0, duration = 1},
   SoundNote {note = G, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = A, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = B, octave = 4, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = C, octave = 5, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = D, octave = 5, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = E, octave = 5, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = F, octave = 5, amp = 0.1, phase = 0, duration = 1},
+  SoundNote {note = G, octave = 5, amp = 0.1, phase = 0, duration = 1},
   SoundNote {note = A, octave = 5, amp = 0.1, phase = 0, duration = 1}
   ]
 
