@@ -1,3 +1,4 @@
+-- Based on tsoding's https://www.youtube.com/watch?v=FYTZkE5BZ-0
 module SoundNote where
 
 import Data.List.Split (splitPlaces)
@@ -150,3 +151,7 @@ alleMeineEntchenNods = [
 alleMeineEntchenSoundNotes = map nodToSoundNote alleMeineEntchenNods
 
 cMinorSoundNotes = map nodToSoundNote [(C, 4, 1), (D, 4, 1), (Ds, 4, 1), (F, 4, 1), (G, 4, 1), (Gs, 4, 1), (As, 4, 1), (C, 5, 1)]
+
+aMinorSignal = melodyWithDefaultParameters aMinorSoundNotes
+cMinorSignal = melodyWithDefaultParameters cMinorSoundNotes
+alleMeineEntchenSignal = melodyWithDefaultParameters alleMeineEntchenSoundNotes

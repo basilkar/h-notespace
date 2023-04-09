@@ -1,6 +1,5 @@
 -- Based on tsoding's https://www.youtube.com/watch?v=FYTZkE5BZ-0
-
-module Sound where
+module Player where
 
 import qualified Data.ByteString.Lazy as B (writeFile)
 import qualified Data.ByteString.Builder as B (floatLE, toLazyByteString)
@@ -25,6 +24,9 @@ playSignal signal = do
   removeFile soundFilePath
   return ()
 
-aMinorSignal = melodyWithDefaultParameters aMinorSoundNotes
-cMinorSignal = melodyWithDefaultParameters cMinorSoundNotes
-alleMeineEntchenSignal = melodyWithDefaultParameters alleMeineEntchenSoundNotes
+-- player :: IO ()
+-- player = do
+--   putStrLn "PLAYER: Input a melody that you want to play in note-octave-duration triples (the duration given in number of beats):"
+--   let inputs = []
+--   nods <- charInputsToNods
+--   playSignal melodyWithDefaultParameters (map nodToSoundNote nods)

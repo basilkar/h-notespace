@@ -10,7 +10,7 @@ import Recognizer
 
 main :: IO ()
 main = do
-    putStrLn "Welcome to notespace, the music calculator."
+    putStrLn "This is notespace, a music calculator."
     putStrLn "In the applications below you enter notes as, e.g., Fs, F#, fs, f#, Gb or gb."
     let loop = do {
         putStrLn "Choose application (or 0 to exit):"

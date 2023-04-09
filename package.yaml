@@ -20,10 +20,16 @@ extra-source-files:
 description:         Yet another music app. Please see the README on GitHub at <https://github.com/githubuser/h-notespace#readme>
 
 dependencies:
-- base >= 4.7 && < 5
 - array >= 0.5.4.0
+- base >= 4.7 && < 5
+- bytestring
 - combinat
+- directory
+- process
 - random
+# - regex-base >= 0.94.0.2
+# - regex-tdfa
+# - regex-tdfa-text
 - split >= 0.1.2.3
 - strings >= 1.1
 

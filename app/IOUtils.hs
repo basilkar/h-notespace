@@ -1,8 +1,26 @@
 module IOUtils where
 
 import Data.Maybe
+-- import Data.Strings
+-- import Text.Regex.TDFA
+-- import Text.Regex.TDFA.Text ()
 
 import Note
+-- import SoundNote
+
+-- charInputsToNods :: [String] -> IO [NOD]
+-- charInputsToNods xs = do
+--     putStrLn " Enter a nod triple to continue or just hit enter to finish:"
+--     input <- getLine
+--     if input == ""
+--         then return (stripNothing (map charsToNod xs))
+--         else charInputsToNods (xs ++ [input])
+
+-- -- incomplete implementation (use regex ^[A-Ga-g][#,s,b]?$)
+-- charsToNod :: String -> Maybe NOD
+-- charsToNod "" = Nothing
+-- charsToNod nodString = Just (stripNothing (charsToNote note), read octave, read duration)
+--     where [note, octave, duration] = strSplitAll "-" nodString
 
 charInputsToNotes :: [String] -> IO [Note]
 charInputsToNotes xs = do
