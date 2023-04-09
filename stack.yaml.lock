@@ -7,14 +7,28 @@ packages:
 - completed:
     hackage: combinat-0.2.9.0@sha256:3daed23a2376f8d9903dc2c1c3758f1f2a0527178c81023080507e5f5ddf5b7a,5107
     pantry-tree:
-      size: 4818
       sha256: 7c14bb4cc6cb0b2d6f14ae8265241966fe6c2e07827d18acad8de1bdc1ba8540
+      size: 4818
   original:
     hackage: combinat-0.2.9.0
+- completed:
+    hackage: split-0.1.2.3@sha256:2d679f5247d5c6da6bf06b832533bdee15c0b7c6dadb29f0739a46fa63021038,753
+    pantry-tree:
+      sha256: 930e71f5538abb93584b4220889f73061114a4af4a9bb4a5d305525f0969db78
+      size: 425
+  original:
+    hackage: split-0.1.2.3
+- completed:
+    hackage: strings-1.1@sha256:1bb4f6f1c59cfc4acd7e0f245b988e1bdb60a6ea16ee3df2bcbcb0efc379614a,1671
+    pantry-tree:
+      sha256: aa0c342fc41d6d68dfa6cc52a623c0e670c0ebb6be3b5b0a98d75735a945f9e1
+      size: 212
+  original:
+    hackage: strings-1.1
 snapshots:
 - completed:
+    sha256: e483fb88549fc0f454c190979bf35ac91c7aceff2c0e71e7d8edd11842d772d8
     size: 532414
     url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/22.yaml
-    sha256: e483fb88549fc0f454c190979bf35ac91c7aceff2c0e71e7d8edd11842d772d8
   original:
     url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/22.yaml

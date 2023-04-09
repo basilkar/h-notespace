@@ -4,7 +4,7 @@ github:              "githubuser/h-notespace"
 license:             BSD3
 author:              "sw.h.basil"
 maintainer:          "sw.h.basil@gmail.com"
-copyright:           "2020 sw.h.basil"
+copyright:           "2020--2023 sw.h.basil"
 
 extra-source-files:
 - README.md
@@ -24,6 +24,8 @@ dependencies:
 - array >= 0.5.4.0
 - combinat
 - random
+- split >= 0.1.2.3
+- strings >= 1.1
 
 library:
   source-dirs: src
