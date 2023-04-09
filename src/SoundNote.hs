@@ -1,7 +1,6 @@
 module SoundNote where
 
-import Data.Foldable
-import Data.List.Split
+import Data.List.Split (splitPlaces)
 
 import Note
 
@@ -10,6 +9,7 @@ type Beats = Float
 type BPM = Float
 type Envelope = Signal -> ADSR -> Signal
 type Hz = Float
+type NOD = (Note, Octave, Beats)
 type Octave = Int
 type Phase = Float
 type Pulse = Float
@@ -28,6 +28,10 @@ data SoundNote = SoundNote
     }
     deriving (Eq, Show, Read)
 
+defaultADSR :: ADSR
+defaultADSR = (0.05, 0.3, 0.8)
+
+
 defaultSampleRate :: SamplesPerSecond
 defaultSampleRate = 44000.0
 
@@ -39,11 +43,6 @@ sineWave sampleRate freq amp phase time = amp * sin (2 * pi * freq * time / samp
 
 singleNoteSignal :: SamplesPerSecond -> Temperament -> BPM -> SoundNote -> Signal
 singleNoteSignal sampleRate temperament bpm soundNote = map (sineWave sampleRate (temperament (note soundNote) (octave soundNote)) (amp soundNote) (phase soundNote)) [0 .. (sampleRate - 1) * (duration soundNote * 60) / bpm]
-
-melodySignal :: SamplesPerSecond -> Temperament -> BPM -> [SoundNote] -> Signal
-melodySignal sampleRate temperament bpm [] = []
-melodySignal sampleRate temperament bpm [soundNote] = singleNoteSignal sampleRate temperament bpm soundNote
-melodySignal sampleRate temperament bpm (soundNote:soundNotes) = singleNoteSignal sampleRate temperament bpm soundNote ++ melodySignal sampleRate temperament bpm soundNotes
 
 defaultEnvelope :: Envelope
 defaultEnvelope signal adsr =
@@ -71,7 +70,6 @@ adsrSegments signal adsr = splitPlaces [attackLength, decayLength, sustainLength
         sustainLength = floor (sustainEnd * fromIntegral (length signal)) - ceiling (decayEnd * fromIntegral (length signal))
         releaseLength = length signal - ceiling (sustainEnd * fromIntegral(length signal))
 
-
 {-
 Examples:
 
@@ -90,3 +88,65 @@ equalTemperament note octave = (equalTemperament C 4 * (2 ** (1.0 / 12.0)) ** m)
     where
         m = fromIntegral $ halfstepsDirectedDistance C note
         octaveDifference = octave - 4
+
+-- the following turns a note-octave-duration triple to a sound note (with the rest of its values default), to allow quicker creation of simple melodies
+nodToSoundNote :: NOD -> SoundNote
+nodToSoundNote (n, oct, dur) = SoundNote {note = n, octave = oct, amp = 0.3, phase = 0, duration = dur}
+
+melodyFromSoundNotes :: Envelope -> ADSR -> SamplesPerSecond -> Temperament -> BPM -> [SoundNote] -> Signal
+melodyFromSoundNotes envelope adsr sampleRate temperament bpm [] = []
+melodyFromSoundNotes envelope adsr sampleRate temperament bpm [soundNote] =
+  envelope (singleNoteSignal sampleRate temperament bpm soundNote) adsr
+melodyFromSoundNotes envelope adsr sampleRate temperament bpm (soundNote:soundNotes) =
+  melodyFromSoundNotes envelope adsr sampleRate temperament bpm [soundNote] ++ melodyFromSoundNotes envelope adsr sampleRate temperament bpm soundNotes
+
+melodyWithDefaultParameters :: [SoundNote] -> Signal
+melodyWithDefaultParameters = melodyFromSoundNotes defaultEnvelope defaultADSR defaultSampleRate equalTemperament defaultBPM
+
+aMinorNods :: [NOD]
+aMinorNods = [
+  (A, 3, 1), (B, 3, 1), (C, 4, 1), (D, 4, 1), (E, 4, 1), (F, 4, 1), (G, 4, 1),
+  (A, 4, 1), (B, 4, 1), (C, 5, 1), (D, 5, 1), (E, 5, 1), (F, 5, 1), (G, 5, 1),
+  (A, 5, 1)
+  ]
+
+aMinorSoundNotes = map nodToSoundNote aMinorNods
+
+alleMeineEntchenNods :: [NOD]
+alleMeineEntchenNods = [
+  (C, 4, 1),
+  (D, 4, 1),
+  (E, 4, 1),
+  (F, 4, 1),
+  (G, 4, 2),
+  (G, 4, 2)
+  ] ++ [
+  (A, 4, 1),
+  (A, 4, 1),
+  (A, 4, 1),
+  (A, 4, 1),
+  (G, 4, 4)
+  ] ++ [
+  (A, 4, 1),
+  (A, 4, 1),
+  (A, 4, 1),
+  (A, 4, 1),
+  (G, 4, 4)
+  ] ++ [
+  (F, 4, 1),
+  (F, 4, 1),
+  (F, 4, 1),
+  (F, 4, 1),
+  (E, 4, 2),
+  (E, 4, 2)
+  ] ++ [
+  (D, 4, 1),
+  (D, 4, 1),
+  (D, 4, 1),
+  (D, 4, 1),
+  (C, 4, 4)
+  ]
+  
+alleMeineEntchenSoundNotes = map nodToSoundNote alleMeineEntchenNods
+
+cMinorSoundNotes = map nodToSoundNote [(C, 4, 1), (D, 4, 1), (Ds, 4, 1), (F, 4, 1), (G, 4, 1), (Gs, 4, 1), (As, 4, 1), (C, 5, 1)]
