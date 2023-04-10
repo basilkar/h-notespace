@@ -1,12 +1,12 @@
 module FretboardQuizzer where
 
-import Control.Monad -- for the loop-while in the main quiz
-import System.Random
+import Control.Monad (when)
+import System.Random (Random, newStdGen, random, randomR, randoms)
 
-import IOUtils
+import IOUtils (charInputToNote)
 
-import Note
-import Guitar
+import Guitar (Fret, Guitarstring, fretboard, tuningStandard)
+import Note (Note)
 
 fretboardQuizzer :: IO ()
 fretboardQuizzer = do

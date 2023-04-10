@@ -1,4 +1,3 @@
--- Based on tsoding's https://www.youtube.com/watch?v=FYTZkE5BZ-0
 module Player where
 
 import qualified Data.ByteString.Lazy as B (writeFile)
@@ -7,9 +6,8 @@ import System.Directory (removeFile)
 import System.Process (runCommand, waitForProcess)
 import Text.Printf (printf)
 
-import IOUtils
-import Note
-import SoundNote
+import IOUtils (charInputsToNods)
+import SoundNote (Signal, defaultSampleRate, melodyWithDefaultParameters, nodToSoundNote)
 
 soundFilePath :: FilePath
 soundFilePath = "soundfile.bin"

@@ -1,12 +1,10 @@
-{-------------------------------------}
-{- 4 -- TYMOCZKO CHORD CHANGE SPACES -}
-{-------------------------------------}
-
 module Tymoczko where
 
-import Note
-import Utils
-import Data.List
+import Data.List (nub, sort)
+
+import Note (Note, minChange)
+import Utils (sortDesc)
+
 {-
 The following draws from [Tymoczko-2006, Tymoczko-2011-book, Tymoczko-2012], and quite substantially from [Hall-Tymoczko-2012]. We'll use n-dimensional Moebius-strip-like spaces, called "orbifolds" in differential geometry, to model harmonies of n-note chord changes, or better, of n-note voice leadings. Let's see how far we can get without using something like the "Data.Modular" module. A basic correspondence to guide the intuition is given by
 

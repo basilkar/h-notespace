@@ -1,7 +1,7 @@
 module Rhythm where
 
-import Math.Combinat
-import Data.List
+import Data.List (isSubsequenceOf)
+import Math.Combinat (choose)
 
 -- We may view time signatures like 4/4, 3/4, et cetera, as pairs of integers.
 type TimeSig = (Int,Int) -- well, the integers are supposed to be positive

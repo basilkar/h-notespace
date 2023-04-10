@@ -1,24 +1,12 @@
-{------------------------------}
-{- 5 -- CONCERNING THE GUITAR -}
-{------------------------------}
-
 module Guitar where
 
-{-
-Watching this guy here, https://www.youtube.com/watch?v=b9pYEjZ4l48, it seemed reasonable to start implementing some of the quirks that are particular to the guitar.
--}
+import Note (Note(..), halfsteps)
 
--- Start by introducing two basic datatypes, one for the strings and one for the frets.
-
-import System.Random
-import Note
 data Guitarstring = StringOne | StringTwo | StringThree | StringFour | StringFive | StringSix
   deriving (Eq, Enum, Ord, Show, Read, Bounded)
 
 data Fret = FretZero | FretOne | FretTwo | FretThree | FretFour | FretFive | FretSix | FretSeven | FretEight | FretNine | FretTen | FretEleven | FretTwelve | FretThirteen | FretFourteen | FretFifteen | FretSixteen | FretSeventeen | FretEighteen | FretNineteen| FretTwenty| FretTwentyone| FretTwentytwo
   deriving (Eq, Enum, Ord, Show, Read, Bounded)
-
--- Then a couple of the common tunings.
 
 tuningStandard :: Guitarstring -> Note
 tuningStandard string = case string of
@@ -65,11 +53,8 @@ tuningNST string = case string of
   StringFive -> G
   StringSix -> C
 
--- Just a grain of sugar.
 
 type Tuning = Guitarstring -> Note
-
--- And now, the fretboard; given a tuning, we allot notes to the pairs of strings and frets.
 
 fretboard :: Tuning -> Guitarstring -> Fret -> Note
 fretboard tuning string fret = halfsteps (tuning string) (fromEnum fret)

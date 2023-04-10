@@ -1,12 +1,10 @@
 module IOUtils where
 
 import Data.Maybe (fromJust)
-import Data.Strings
--- import Text.Regex.TDFA
--- import Text.Regex.TDFA.Text ()
+import Data.Strings (strSplitAll)
 
-import Note
-import SoundNote
+import Note (Note(..))
+import SoundNote (NOD)
 
 charInputsToNods :: [String] -> IO [NOD]
 charInputsToNods xs = do
@@ -16,7 +14,6 @@ charInputsToNods xs = do
         then return (stripNothing (map charsToNod xs))
         else charInputsToNods (xs ++ [input])
 
--- incomplete implementation (use regex ^[A-Ga-g][#,s,b]?$)
 charsToNod :: String -> Maybe NOD
 charsToNod "" = Nothing
 charsToNod nodString = Just (fromJust (charsToNote note), read octave, read duration)

@@ -3,7 +3,7 @@ module SoundNote where
 
 import Data.List.Split (splitPlaces)
 
-import Note
+import Note (Note(..), halfstepsDirectedDistance)
 
 type ADSR = (Float, Float, Float)
 type Beats = Float

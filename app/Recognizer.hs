@@ -1,8 +1,8 @@
 module Recognizer where
 
-import Data.List -- for sorting lists, for nub
+import Data.List (nub, sort)
 
-import IOUtils
+import IOUtils (charInputToNote, charInputsToNotes)
 
 import Note
 
@@ -19,7 +19,6 @@ namer = do
     root <- charInputToNote charsRoot
     putStr "RECOGNIZER: "
     print (icsRecognizer notes root)
-
 
 scaleChordFinder :: IO ()
 scaleChordFinder = do
@@ -40,7 +39,6 @@ scaleChordFinder = do
             ; mapM_ print chords
             }
         else putStrLn "RECOGNIZER: No chords like this were found in the notes you've provided."
-
 
 knownScaleChordFinder :: IO ()
 knownScaleChordFinder = do

@@ -200,7 +200,7 @@ Input #0, f32le, from 'soundfile.bin':
 
 ### Fretboard quizzer
 
-Answer questions about the guitar fretboard.
+Answer questions about the guitar fretboard (inspired by [GuitarZoom.com's video on memorizing notes](https://www.youtube.com/watch?v=b9pYEjZ4l48)).
 
 Sample run:
 ```

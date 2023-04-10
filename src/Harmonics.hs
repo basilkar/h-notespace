@@ -1,7 +1,7 @@
 module Harmonics where
 
-import Data.List
-import Data.Maybe
+import Data.List (findIndex, intersect, nub, sort)
+import Data.Maybe (fromJust)
 
 type Cent = Double
 type IntFreq = Integer

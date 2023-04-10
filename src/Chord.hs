@@ -1,7 +1,7 @@
 module Chord where
 
-import Note
-import Data.List
+import Note (Note(..))
+import Data.List (nub)
 
 {-
 So, one way to speak about chords is to view them as values of [Note], exactly as we did above with the four basic types of triads.
@@ -18,11 +18,10 @@ data Chord = ChordBot | Single Note | Dyad Chord Chord | Triad Chord Chord Chord
 
 {- EXAMPLES -}
 
+{-
 e_minor_over_c = Dyad (Single C) (Triad (Single E) (Single G) (Single B))
 a_over_c_major = Dyad (Triad (Single C) (Single E) (Single G)) (Single A)
 c_major_extended = Dyad (Triad (Single C) (Single E) (Single G)) ChordBot
-
-{-
 
 > :t a_over_c_major
 a_over_c_major :: Chord
@@ -227,7 +226,7 @@ ctrapply :: Chord -> [[Chord]] -> [Chord]
 ctrapply ctr us
     | ctr /= ctrhead                                                    = error "ctrapply: not a constructor"
 --     | any (\ u -> u == []) us                                           = error "ctrapply: empty argument" -- if you include this line the pathform below crashes; in any case, you would need the line in the definition of entails, if you were to use ctrapply there
-    | not (all consistentL us)                               = error "ctrapply: inconsistent argument"
+    | not (all consistentL us)                                          = error "ctrapply: inconsistent argument"
     | length us /= arity ctr                                            = error "ctrapply: too few or too many arguments"
     | ctrhead == ChordBot                                               = [ChordBot]
     | ctrhead == Single A                                               = [Single A]
@@ -270,7 +269,7 @@ entails u a
 -- Finally, define the lift of entails between lists.
 
 entailsL :: [Chord] -> [Chord] -> Bool
-entailsL u = all (\ b -> u `entails` b)
+entailsL u = all (u `entails`)
 
 {- EXAMPLES
 

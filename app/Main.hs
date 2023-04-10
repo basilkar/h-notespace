@@ -1,13 +1,9 @@
 module Main where
 
-import Control.Monad -- for the loop-while in the main quiz
-import Data.Maybe
-import System.Random
-
-import FretboardQuizzer
-import ImproSuggester
-import Player
-import Recognizer
+import FretboardQuizzer (fretboardQuizzer)
+import ImproSuggester (improSuggester)
+import Player (player)
+import Recognizer (knownScaleChordFinder, namer, scaleChordFinder)
 
 main :: IO ()
 main = do

@@ -1,12 +1,12 @@
 module ImproSuggester where
 
-import Data.List -- for sorting lists, for nub
+import Data.List (nub, sort, sortOn)
 
 import Note
-import Utils
+import Utils (levenshtein)
 
-import Recognizer
-import IOUtils
+import IOUtils (charInputToNote, charInputsToNotes)
+import Recognizer (icsRecognizer)
 
 
 improSuggester :: IO ()
