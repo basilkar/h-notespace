@@ -4,27 +4,27 @@ import Data.List
 import Data.Maybe
 
 type Cent = Double
-type Freq = Integer
-type Ival = (Freq, Freq)
+type IntFreq = Integer
+type Ival = (IntFreq, IntFreq)
 
-harmonicsOf :: Freq -> [Freq]
+harmonicsOf :: IntFreq -> [IntFreq]
 harmonicsOf f = map (f*) [1..]
 
 -- this finds all common frequencies among the first m harmonics of two fundamentals f and g
-firstCommonHarmonics :: Int -> Freq -> Freq -> [Freq]
+firstCommonHarmonics :: Int -> IntFreq -> IntFreq -> [IntFreq]
 firstCommonHarmonics m f g = take m (harmonicsOf f) `intersect` take m (harmonicsOf g)
 
 -- this considers the first k harmonics of f, and lists the number of the common frequencies that each of the harmonics has with f, looking at their respective first m harmonics
-overlapWithHarmonics :: Freq -> Int -> Int -> [Int]
+overlapWithHarmonics :: IntFreq -> Int -> Int -> [Int]
 overlapWithHarmonics f m k = take k $ map (length . firstCommonHarmonics m f) (harmonicsOf f)
 -- of importance is the case where m >= k, where the last overtones do get a chance to have common harmonics with the fundamental, eg
 -- *Main> overlapWithHarmonics 55 1000 1000
 -- [1000,500,333,250,200,166,142,125,111,100,90,83,76,71,66,62,58,55,52,50,47,45,43,41,40,38,37,35,34,33,32,31,30,29,28,27,27,26,25,25,24,23,23,22,22,21,21,20,20,20,19,19,18,18,18,17,17,17,16,16,16,16,15,15,15,15,14,14,14,14,14,13,13,13,13,13,12,12,12,12,12,12,12,11,11,11,11,11,11,11,10,10,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
-octaveUp :: Freq -> Freq
+octaveUp :: IntFreq -> IntFreq
 octaveUp f = 2*f
 
-octaveDown:: Freq -> Freq
+octaveDown:: IntFreq -> IntFreq
 octaveDown f
     | odd f     = error "Harmonics: non-integer frequencies are not supported."
     | otherwise = f `div` 2
@@ -81,9 +81,9 @@ ratioToCents (num, den) = 1200 * logBase 2 (num / den)
 -- for the limen (smallest perceptible interval) Benson-2006 says 220 cents at 5dB and 31Hz; the higher the dB or Hz, the lower the limen
 limen :: Cent
 limen = 3
-audibleMin :: Freq
+audibleMin :: IntFreq
 audibleMin = 20
-audibleMax :: Freq
+audibleMax :: IntFreq
 audibleMax = 20000
 
 isAboveLimen :: Ival -> Bool
@@ -98,23 +98,23 @@ isBelowLimen ival = ratioToCents (num, den) < limen
         num = fromInteger (fst ival)
         den = fromInteger (snd ival)
 
-isAudible :: Freq -> Bool
+isAudible :: IntFreq -> Bool
 isAudible f = audibleMin <= f && f <= audibleMax
 
-audibles :: [Freq] -> [Freq]
+audibles :: [IntFreq] -> [IntFreq]
 audibles [] = []
 audibles (f:fs)
     | isAudible f   = f : audibles fs
     | otherwise     = []
 
-audibleHarmonicsOf :: Freq -> [Freq]
+audibleHarmonicsOf :: IntFreq -> [IntFreq]
 audibleHarmonicsOf = audibles . harmonicsOf
 
 -- while these return the ratios times the fundamental
-justHarmonicIntervalsOf :: Freq -> [Ival]
+justHarmonicIntervalsOf :: IntFreq -> [Ival]
 justHarmonicIntervalsOf f = map (\h -> octaveReduction (h, f)) (harmonicsOf f)
 
-discreteJustHarmonicIntervalsOf :: Freq -> [Ival]
+discreteJustHarmonicIntervalsOf :: IntFreq -> [Ival]
 discreteJustHarmonicIntervalsOf = nub . justHarmonicIntervalsOf
 
 discreteJustHarmonicIntervalsAboveLimen :: [Ival]

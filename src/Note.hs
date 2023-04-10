@@ -270,4 +270,3 @@ inversionAtRoot m rsc r s = notesBySignature s (signatureByNotes (inversion m rs
 
 sigMode :: Int -> [Int] -> [Int]
 sigMode m sig = signatureByNotes $ notesBySignature A (cyclicPermutation (m-1) sig) -- the choice of A is arbitrary, any note will do
-
