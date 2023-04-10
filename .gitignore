@@ -1,3 +1,4 @@
-.stack-work/
 *~
 .bin
+.code-workspace
+.stack-work/
