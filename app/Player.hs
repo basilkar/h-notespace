@@ -7,6 +7,7 @@ import System.Directory (removeFile)
 import System.Process (runCommand, waitForProcess)
 import Text.Printf (printf)
 
+import IOUtils
 import Note
 import SoundNote
 
@@ -24,9 +25,9 @@ playSignal signal = do
   removeFile soundFilePath
   return ()
 
--- player :: IO ()
--- player = do
---   putStrLn "PLAYER: Input a melody that you want to play in note-octave-duration triples (the duration given in number of beats):"
---   let inputs = []
---   nods <- charInputsToNods
---   playSignal melodyWithDefaultParameters (map nodToSoundNote nods)
+player :: IO ()
+player = do
+  putStrLn "PLAYER: Input a melody that you want to play in note-octave-duration triples (the duration given in number of beats):"
+  let inputs = []
+  nods <- charInputsToNods inputs
+  playSignal $ melodyWithDefaultParameters (map nodToSoundNote nods)

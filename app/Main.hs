@@ -6,6 +6,7 @@ import System.Random
 
 import FretboardQuizzer
 import ImproSuggester
+import Player
 import Recognizer
 
 main :: IO ()
@@ -18,14 +19,16 @@ main = do
         ; putStrLn "2 namer"
         ; putStrLn "3 scale chord finder"
         ; putStrLn "4 known scale chord finder"
-        ; putStrLn "5 fretboard quizzer"
+        ; putStrLn "5 player"
+        ; putStrLn "6 fretboard quizzer"
         ; choice <- getLine
         ; case choice of
               "0" -> putStrLn "Exiting."
               "1" -> do {ImproSuggester.improSuggester ; loop}
-              "2" -> do {Recognizer.namer; loop}
-              "3" -> do {Recognizer.scaleChordFinder; loop}
-              "4" -> do {Recognizer.knownScaleChordFinder; loop}
-              "5" -> do {FretboardQuizzer.fretboardQuizzer ; loop}
-              _ -> do {putStr "No valid application chosen." ; loop}}
+              "2" -> do {Recognizer.namer ; loop}
+              "3" -> do {Recognizer.scaleChordFinder ; loop}
+              "4" -> do {Recognizer.knownScaleChordFinder ; loop}
+              "5" -> do {Player.player ; loop}
+              "6" -> do {FretboardQuizzer.fretboardQuizzer ; loop}
+              _ -> do {putStr "No valid application chosen. " ; loop}}
     loop

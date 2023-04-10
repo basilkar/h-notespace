@@ -17,7 +17,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Yet another music app. Please see the README on GitHub at <https://github.com/githubuser/h-notespace#readme>
+description:         A music calculator. Please see the README on GitHub at <https://github.com/githubuser/h-notespace#readme>
 
 dependencies:
 - array >= 0.5.4.0
